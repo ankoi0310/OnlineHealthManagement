@@ -1,6 +1,6 @@
-package model;
+package dto.user;
 
-public class User {
+public class UserRegister {
 	private String id;
 	private String fullname;
 	private int age;
@@ -8,13 +8,14 @@ public class User {
 	private String phone;
 	private String password;
 	private String address;
-	private int roleId;
 
-	public User() {
+	public UserRegister() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public User(String id, String fullname, int age, boolean male, String phone, String password, String address,
-			int roleId) {
+	public UserRegister(String id, String fullname, int age, boolean male, String phone, String password, String address) {
+		super();
 		this.id = id;
 		this.fullname = fullname;
 		this.age = age;
@@ -22,7 +23,6 @@ public class User {
 		this.phone = phone;
 		this.password = password;
 		this.address = address;
-		this.roleId = roleId;
 	}
 
 	public String getId() {
@@ -41,6 +41,14 @@ public class User {
 		this.fullname = fullname;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public int getAge() {
 		return age;
 	}
@@ -57,14 +65,6 @@ public class User {
 		this.male = male;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -79,14 +79,6 @@ public class User {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public int getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
 	}
 
 }

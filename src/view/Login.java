@@ -1,118 +1,114 @@
 package view;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.AncestorEvent;
 
-import constant.AppConstant;
+import controller.UserController;
+import handle.AppResult;
+import model.User;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
 public class Login extends JFrame {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JLabel lblTitle, lblUsername, lblPassword;
-	private JTextField tfUsername;
+	private JLabel lblTitle, lblPhone, lblPassword;
+	private JTextField tfPhone;
 	private JPasswordField pfPassword;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	private JButton btnRegister, btnLogin;
+	
+	private Registration registration;
+	
+	private UserController userController;
+	
+	private Login getCurrentFrame() {
+		return this;
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Login() {
-		Border padding = BorderFactory.createEmptyBorder(10, 0, 10, 20);
 		
-		setTitle("Login");
+		setTitle("ƒêƒÉng nh√¢Ã£p");
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblTitle = new JLabel("Vui loÃng „ng nh‚Úp Í“ tiÍÏp tuÚc");
+		lblTitle = new JLabel("Vui loÃÄng ƒëƒÉng nh√¢Ã£p ƒë√™Ãâ ti√™ÃÅp tuÃ£c");
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		lblTitle.setBounds(0, 21, 434, 47);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblTitle);
 		
-		lblUsername = new JLabel("TÍn „ng nh‚Úp: ");
-		lblUsername.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblUsername.setBounds(60, 89, 136, 26);
-		contentPane.add(lblUsername);
+		lblPhone = new JLabel("S√¥ÃÅ ƒëi√™Ã£n thoaÃ£i: ");
+		lblPhone.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblPhone.setBounds(60, 89, 136, 26);
+		contentPane.add(lblPhone);
 		
-		lblPassword = new JLabel("M‚Út kh‚“u: ");
+		lblPassword = new JLabel("M√¢Ã£t kh√¢Ãâu: ");
 		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblPassword.setBounds(60, 141, 136, 26);
 		contentPane.add(lblPassword);
 		
-		tfUsername = new JTextField();
-		tfUsername.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		tfUsername.setBounds(206, 89, 166, 26);
-		contentPane.add(tfUsername);
-		tfUsername.setColumns(10);
+		tfPhone = new JTextField();
+		tfPhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		tfPhone.setBounds(206, 89, 166, 26);
+		tfPhone.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnLogin.doClick();
+				}
+			}
+		});
+		contentPane.add(tfPhone);
+		tfPhone.setColumns(10);
 		
 		pfPassword = new JPasswordField();
 		pfPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		pfPassword.setBounds(206, 141, 166, 26);
+		pfPassword.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnLogin.doClick();
+				}
+			}
+		});
 		contentPane.add(pfPassword);
 		
-		JButton btnLogin = new JButton("–„ng nh‚Úp");
+		btnLogin = new JButton("ƒêƒÉng nh√¢Ã£p");
 		btnLogin.addActionListener(new ActionListener() {
-			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e) {
-				String username = tfUsername.getText();
-				String password = String.valueOf(pfPassword.getPassword());
+				userController = new UserController();
 				
-				if (AppConstant.users.get(username) == null ) {
-					JOptionPane.showMessageDialog(getParent(), "TaÃi khoa“n khÙng tÙÃn taÚi!");
-				} else if (!AppConstant.users.get(username).equals(password)) {
-					JOptionPane.showMessageDialog(getParent(), "Sai tÍn „ng nh‚Úp ho„Úc m‚Út kh‚“u!");
-				} else {
-					JOptionPane option = new JOptionPane();
-					option.showMessageDialog(getParent(), "–„ng nh‚Úp thaÃnh cÙng!");
+				String phone = tfPhone.getText();
+				String password = String.valueOf(pfPassword.getPassword());
+				AppResult<User> result = userController.checkLogin(phone, password);
+				
+				if (result.isSuccess()) {
+					JOptionPane.showMessageDialog(getParent(), "ƒêƒÉng nh√¢Ã£p thaÃÄnh c√¥ng!");
 					dispose();
-					Main main = new Main();
+					Main main = new Main(result.getData());
 					main.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(getParent(), result.getMessage());
 				}
 			}
 		});
@@ -122,13 +118,22 @@ public class Login extends JFrame {
 		btnLogin.setBounds(68, 197, 115, 23);
 		contentPane.add(btnLogin);
 		
-		JButton btnRegister = new JButton("–„ng kyÏ");
+		btnRegister = new JButton("ƒêƒÉng kyÃÅ");
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				registration = new Registration();
+				registration.setCurrentLoginFrame(getCurrentFrame());
+				registration.setVisible(true);
+			}
+		});
 		btnRegister.setForeground(Color.WHITE);
 		btnRegister.setBackground(new Color(0, 153, 255));
 		btnRegister.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnRegister.setBounds(251, 197, 115, 23);
 		contentPane.add(btnRegister);
-		
+
+		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 	}
