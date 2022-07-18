@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 
 import vn.edu.hcmuaf.fit.App;
 import vn.edu.hcmuaf.fit.controller.UserController;
+import vn.edu.hcmuaf.fit.dto.Role;
 import vn.edu.hcmuaf.fit.model.User;
 
 import javax.swing.JLabel;
@@ -22,7 +23,7 @@ import javax.swing.JPasswordField;
 import java.awt.event.*;
 import javax.swing.JRadioButton;
 
-public class Registration extends JFrame implements ActionListener, KeyListener {
+public class Registration extends JFrame implements ActionListener, KeyListener, WindowListener {
 	private UserController controller;
 	private User model;
 	private JPanel contentPane;
@@ -31,6 +32,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener 
 	private JPasswordField pfPassword;
 	private JButton btnCancel, btnRegister;
 	private JRadioButton rdbtnMale, rdbtnFemale;
+	private Login login;
 
 	public Registration(UserController controller, User model) {
 		this.controller = controller;
@@ -142,6 +144,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener 
 		btnRegister.setBackground(new Color(0, 153, 255));
 		btnRegister.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnRegister.setBounds(327, 289, 115, 23);
+		btnRegister.addActionListener(this);
 		contentPane.add(btnRegister);
 
 		btnCancel = new JButton("Huỷ");
@@ -149,10 +152,21 @@ public class Registration extends JFrame implements ActionListener, KeyListener 
 		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnCancel.setBackground(Color.RED);
 		btnCancel.setBounds(106, 289, 115, 23);
+		btnCancel.addActionListener(this);
 		contentPane.add(btnCancel);
 
+		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		addWindowListener(this);
 		setLocationRelativeTo(null);
+	}
+
+	public void setCurrentLogin(Login login) {
+		this.login = login;
+	}
+
+	public Login getCurrentLogin() {
+		return login;
 	}
 
 	public void showMessage(String message) {
@@ -173,20 +187,21 @@ public class Registration extends JFrame implements ActionListener, KeyListener 
 		Object source = e.getSource();
 
 		if (source.equals(btnRegister)) {
+			try {
+				model.setAge(Integer.parseInt(tfAge.getText()));
+			} catch (NumberFormatException e1) {
+				showError("Tuổi phải là số nguyên");
+				return;
+			}
 			model.setId(tfId.getText());
 			model.setFullname(tfFullname.getText());
-			model.setAge(Integer.parseInt(tfAge.getText()));
 			model.setPhone(tfPhone.getText());
 			model.setAddress(tfAddress.getText());
-			model.setPassword(pfPassword.getText());
+			model.setPassword(String.valueOf(pfPassword.getPassword()));
 			model.setMale(rdbtnMale.isSelected());
 
 			controller.register(model);
-		}
-
-		if (source.equals(btnCancel)) {
-			controller.unregister();
-		}
+		} else if (source.equals(btnCancel)) controller.unregister(this);
 	}
 
 	@Override
@@ -204,5 +219,39 @@ public class Registration extends JFrame implements ActionListener, KeyListener 
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			btnRegister.doClick();
 		}
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		controller.unregister(this);
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+
 	}
 }

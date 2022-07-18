@@ -54,21 +54,23 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 		lblPhone.setBounds(60, 89, 136, 26);
 		contentPane.add(lblPhone);
 
+		tfUsername = new JTextField();
+		tfUsername.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		tfUsername.setBounds(206, 89, 166, 26);
+		tfUsername.setColumns(10);
+		tfUsername.addKeyListener(this);
+		contentPane.add(tfUsername);
+
 		lblPassword = new JLabel("Mật khẩu: ");
 		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblPassword.setBounds(60, 141, 136, 26);
 		contentPane.add(lblPassword);
 
-		tfUsername = new JTextField();
-		tfUsername.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		tfUsername.setBounds(206, 89, 166, 26);
-		contentPane.add(tfUsername);
-		tfUsername.setColumns(10);
-
 		pfPassword = new JPasswordField();
 		pfPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		pfPassword.setBounds(206, 141, 166, 26);
+		pfPassword.addKeyListener(this);
 		contentPane.add(pfPassword);
 
 		btnLogin = new JButton("Đăng nhập");
@@ -77,7 +79,6 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnLogin.setBounds(68, 197, 115, 23);
 		btnLogin.addActionListener(this);
-		btnLogin.addKeyListener(this);
 		contentPane.add(btnLogin);
 
 		btnRegister = new JButton("Đăng ký");
@@ -86,7 +87,6 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 		btnRegister.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnRegister.setBounds(251, 197, 115, 23);
 		btnRegister.addActionListener(this);
-		btnRegister.addKeyListener(this);
 		contentPane.add(btnRegister);
 
 		setVisible(true);
@@ -103,6 +103,11 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 	}
 
 	public void close() {
+		if (App.frames.size() == 1) {
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		} else {
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
 		dispose();
 		App.frames.remove(this);
 	}
@@ -122,11 +127,11 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 		if (source.equals(btnLogin)) {
 			String username = tfUsername.getText();
 			String password = String.valueOf(pfPassword.getPassword());
-			controller.login(username, password);
+			controller.login(this, username, password);
 		}
 
 		if (source.equals(btnRegister)) {
-			controller.getRegister();
+			controller.getRegister(this);
 		}
 	}
 
@@ -137,7 +142,11 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_ENTER) btnLogin.doClick();
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			String username = tfUsername.getText();
+			String password = String.valueOf(pfPassword.getPassword());
+			controller.login(this, username, password);
+		}
 	}
 
 	@Override

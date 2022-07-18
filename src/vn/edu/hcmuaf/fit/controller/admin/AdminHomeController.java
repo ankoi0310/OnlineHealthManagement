@@ -12,14 +12,14 @@ import vn.edu.hcmuaf.fit.view.UpdateRequestStatus;
 
 import java.util.List;
 
-public class HomeController {
+public class AdminHomeController {
     private User user; // logged in user
     private UserService userService;
     private final RequestService requestService;
     private PatientService patientService;
     private final Home view;
 
-    public HomeController(User user) {
+    public AdminHomeController(User user) {
         this.userService = new UserServiceImpl();
         this.requestService = new RequestServiceImpl();
         this.patientService = new PatientServiceImpl();
@@ -28,12 +28,18 @@ public class HomeController {
         view = new Home(this, user);
         view.createView();
 
-        getRequests();
+        refresh();
 
         App.frames.add(view);
+        App.frameMap.get(user.getRole()).add(view);
     }
 
-    public void getRequests() {
+    public void search(String keyword) {
+        List<Request> requests = requestService.search(keyword).getData();
+        view.redraw(requests);
+    }
+
+    public void refresh() {
         List<Request> requests = requestService.getRequests().getData();
         view.redraw(requests);
     }
@@ -47,32 +53,24 @@ public class HomeController {
             view.getStatus();
 
             App.frames.add(view);
+            App.frameMap.get(user.getRole()).add(view);
         } else {
             view.showError(result.getMessage());
         }
     }
 
     public void updateRequestStatus(Long id, int status) {
-        UpdateRequestStatus currentFrame = (UpdateRequestStatus) App.frames.peek();
+        UpdateRequestStatus currentFrame = (UpdateRequestStatus) App.frameMap.get(user.getRole()).peek();
 
         AppBaseResult result = requestService.updateStatus(id, status);
 
         if (result.isSuccess()) {
             currentFrame.showMessage(result.getMessage());
-            currentFrame.close();
-            getRequests();
+            currentFrame.close(user.getRole());
+            refresh();
         } else {
             currentFrame.showError(result.getMessage());
         }
-    }
-
-    public void logout() {
-        view.close();
-        UserController controller = new UserController(new User());
-        controller.getLogin();
-    }
-
-    public void search() {
     }
 
     public void getUpdateInfo() {
@@ -86,9 +84,15 @@ public class HomeController {
 
         if (result.isSuccess()) {
             view.showMessage(result.getMessage());
-            getRequests();
+            refresh();
         } else {
             view.showError(result.getMessage());
         }
+    }
+
+    public void logout() {
+        view.close(user.getRole());
+        UserController controller = new UserController(new User());
+        controller.getLogin();
     }
 }

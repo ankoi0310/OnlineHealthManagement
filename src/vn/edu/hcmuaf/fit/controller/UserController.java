@@ -1,7 +1,8 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import vn.edu.hcmuaf.fit.App;
-import vn.edu.hcmuaf.fit.controller.admin.HomeController;
+import vn.edu.hcmuaf.fit.controller.admin.AdminHomeController;
+import vn.edu.hcmuaf.fit.controller.client.ClientHomeController;
 import vn.edu.hcmuaf.fit.dto.UserLogin;
 import vn.edu.hcmuaf.fit.handle.AppBaseResult;
 import vn.edu.hcmuaf.fit.handle.AppResult;
@@ -13,6 +14,8 @@ import vn.edu.hcmuaf.fit.view.Registration;
 
 import javax.swing.*;
 
+import static vn.edu.hcmuaf.fit.constant.RoleConstant.*;
+
 public class UserController {
 	private final User model;
 	private final UserService userService;
@@ -23,9 +26,12 @@ public class UserController {
 		this.model = model;
 	}
 
-	public void getRegister() {
-		Registration view = new Registration(this, new User());
+	public void getRegister(Login login) {
+		login.off();
+
+		Registration view = new Registration(this, model);
 		view.createView();
+		view.setCurrentLogin(login);
 
 		App.frames.add(view);
 	}
@@ -35,16 +41,21 @@ public class UserController {
 		AppBaseResult result = userService.register(user);
 
 		if (result.isSuccess()) {
+			Login login = registration.getCurrentLogin();
+
 			registration.showMessage(result.getMessage());
 			registration.close();
+			login.on();
 		} else {
 			registration.showError(result.getMessage());
 		}
 	}
 
-	public void unregister() {
-		Registration frame = (Registration) App.frames.pop();
-		frame.dispose();
+	public void unregister(Registration registration) {
+		registration.close();
+
+		Login login = registration.getCurrentLogin();
+		login.on();
 	}
 
 	public void getLogin() {
@@ -52,22 +63,22 @@ public class UserController {
 		view.createView();
 
 		App.frames.add(view);
-		if (App.frames.size() == 1) {
-			view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		} else {
-			view.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		}
 	}
 
-	public void login(String username, String password) {
-		Login view = (Login) App.frames.peek();
+	public void login(Login view, String username, String password) {
 		AppResult<User> result = userService.login(new UserLogin(username, password));
 
 		if (result.isSuccess()) {
+			User user = result.getData();
+
 			view.showMessage(result.getMessage());
 			view.close();
 
-			new HomeController(result.getData());
+			if (ADMIN.equals(user.getRole()) || EMPLOYEE.equals(user.getRole()) || HOSPITAL.equals(user.getRole())) {
+				new AdminHomeController(user);
+			} else if (USER.equals(user.getRole())) {
+				new ClientHomeController(user);
+			}
 		} else {
 			view.showError(result.getMessage());
 		}

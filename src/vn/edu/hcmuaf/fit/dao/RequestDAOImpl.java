@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,6 +23,17 @@ public class RequestDAOImpl implements RequestDAO {
 	@Override
 	public List<Request> findAll() {
 		return DbManager.requests;
+	}
+
+	@Override
+	public List<Request> findByUserId(String userId) {
+		List<Request> requests = new ArrayList<>();
+		for (Request request : DbManager.requests) {
+			if (Objects.equals(request.getUser().getId(), userId)) {
+				requests.add(request);
+			}
+		}
+		return requests;
 	}
 
 	@Override
