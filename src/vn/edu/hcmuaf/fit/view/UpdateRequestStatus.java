@@ -5,8 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import vn.edu.hcmuaf.fit.App;
-import vn.edu.hcmuaf.fit.controller.admin.AdminHomeController;
-import vn.edu.hcmuaf.fit.dto.Role;
+import vn.edu.hcmuaf.fit.controller.admin.HomeController;
 import vn.edu.hcmuaf.fit.model.Request;
 
 import javax.swing.JLabel;
@@ -22,7 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class UpdateRequestStatus extends JFrame implements ActionListener {
-	private final AdminHomeController controller;
+	private final HomeController controller;
 	private final Request model;
 	private JLabel lblHeader;
 
@@ -30,7 +29,7 @@ public class UpdateRequestStatus extends JFrame implements ActionListener {
 	private JComboBox<String> cbStatus;
 	private JButton btnCancel, btnSubmit;
 
-	public UpdateRequestStatus(AdminHomeController controller, Request model) {
+	public UpdateRequestStatus(HomeController controller, Request model) {
 		this.controller = controller;
 		this.model = model;
 	}
@@ -50,10 +49,7 @@ public class UpdateRequestStatus extends JFrame implements ActionListener {
 
 		cbStatus = new JComboBox<>();
 		cbStatus.setFont(new Font("Tahoma", Font.BOLD, 16));
-		cbStatus.setModel(new DefaultComboBoxModel<>(new String[] {
-				"Chờ xử lý", "Đã tiếp nhận", "Đã yêu cầu sử dụng xe",
-				"Xe đang di chuyển", "Xe đã đến", "Yêu cầu hoàn thành"
-		}));
+		cbStatus.setModel(new DefaultComboBoxModel<>(new String[] {"Chờ xử lý", "Đang xử lý", "Đang yêu cầu xe cấp cứu", "Xe cấp cứu đang di chuyển", "Yêu cầu hoàn thành"}));
 		cbStatus.setBounds(83, 53, 268, 32);
 		contentPane.add(cbStatus);
 
@@ -79,7 +75,7 @@ public class UpdateRequestStatus extends JFrame implements ActionListener {
 	}
 
 	public void getStatus() {
-		cbStatus.setSelectedIndex(model.getStatus());
+		cbStatus.setSelectedItem(model.getStatus());
 	}
 
 	public void showMessage(String message) {
@@ -90,9 +86,9 @@ public class UpdateRequestStatus extends JFrame implements ActionListener {
 		JOptionPane.showMessageDialog(this, message, "Lỗi", JOptionPane.ERROR_MESSAGE);
 	}
 
-	public void close(Role role) {
+	public void close() {
 		dispose();
-		App.frameMap.get(role).remove(this);
+		App.frames.remove(this);
 	}
 
 	@Override

@@ -42,8 +42,7 @@ public class UserServiceImpl implements UserService {
 			User user = userDAO.findById(newUser.getId());
 			if (user != null)
 				return AppBaseResult.GenarateIsFailed("Tài khoản đã tồn tại");
-
-			newUser.setPassword(hashPassword(newUser.getPassword()));
+			
 			newUser.setRole(RoleConstant.USER);
 			userDAO.save(newUser);
 			
@@ -69,7 +68,7 @@ public class UserServiceImpl implements UserService {
 		
 		if (currentUser == null)
 			return new AppResult<>(false, "Tài khoản không tồn tại", null);
-
+		
 		if (!Objects.requireNonNull(hashPassword(password)).equalsIgnoreCase(currentUser.getPassword()))
 			return new AppResult<>(false, "Sai tên tài khoản hoặc mật khẩu!", null);
 		

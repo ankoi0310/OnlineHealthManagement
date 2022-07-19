@@ -22,7 +22,7 @@ import vn.edu.hcmuaf.fit.App;
 import vn.edu.hcmuaf.fit.controller.PatientController;
 import vn.edu.hcmuaf.fit.model.Patient;
 
-public class PatientForm extends JFrame implements ActionListener {
+public class UpdatePatient extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField tfFullname, tfCMND;
@@ -32,10 +32,13 @@ public class PatientForm extends JFrame implements ActionListener {
 	private JRadioButton rdbtnMale;
 	private List<Patient> patients = new ArrayList<Patient>();
 	Patient patient;
+	int row ;
 	
-	public PatientForm(PatientController control) {
+	public UpdatePatient(PatientController control, Patient p, int row) {
 		// TODO Auto-generated constructor stub
 		this.controller = control;
+		patient = p;
+		this.row = row;
 	}
 	public void createView() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -57,7 +60,7 @@ public class PatientForm extends JFrame implements ActionListener {
 		lblCMND.setBounds(57, 94, 110, 27);
 		contentPane.add(lblCMND);
 		
-		tfCMND = new JTextField();
+		tfCMND = new JTextField(patient.getId());
 		tfCMND.setBounds(224, 94, 188, 27);
 		contentPane.add(tfCMND);
 		tfCMND.setColumns(10);
@@ -69,7 +72,7 @@ public class PatientForm extends JFrame implements ActionListener {
 		lblFullname.setBounds(57, 134, 110, 27);
 		contentPane.add(lblFullname);
 		
-		tfFullname = new JTextField();
+		tfFullname = new JTextField(patient.getFullname());
 		tfFullname.setBounds(224, 134, 188, 27);
 		contentPane.add(tfFullname);
 		tfFullname.setColumns(10);
@@ -81,7 +84,7 @@ public class PatientForm extends JFrame implements ActionListener {
 		lblAge.setBounds(57, 172, 110, 27);
 		contentPane.add(lblAge);
 		
-		tfAge = new JTextField();
+		tfAge = new JTextField(patient.getAge()+"");
 		tfAge.setColumns(10);
 		tfAge.setBounds(224, 172, 188, 27);
 		contentPane.add(tfAge);
@@ -102,6 +105,9 @@ public class PatientForm extends JFrame implements ActionListener {
 		JRadioButton rdbtnFemale = new JRadioButton("Nữ");
 		rdbtnFemale.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rdbtnFemale.setBounds(301, 210, 46, 26);
+		if(!patient.isMale()) {
+			rdbtnFemale.setSelected(true);
+		}
 		contentPane.add(rdbtnFemale);
 		
 		ButtonGroup bg = new ButtonGroup();
@@ -125,14 +131,10 @@ public class PatientForm extends JFrame implements ActionListener {
 		btnSubmit.addActionListener(this);
 		
 		setVisible(true);
-		setTitle("sdfdfdf");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 	}
-	public static void main(String[] args) {
-		PatientForm form = new PatientForm(null);
-		form.createView();
-	}
+	
 	public void showMessage(String message) {
 		JOptionPane.showMessageDialog(this, message);
 	}
@@ -154,7 +156,7 @@ public class PatientForm extends JFrame implements ActionListener {
 			
 			patient = new Patient(id, name, age, male);
 //			patients.add(patient);
-			controller.addPatient(patient);
+			controller.updatePatient(patient, row);
 			
 		} else if (btnCancel_1.equals(source)) {
 			for(Patient p: patients) {
@@ -162,5 +164,10 @@ public class PatientForm extends JFrame implements ActionListener {
 			}
 			dispose();
 		}
+	}
+	
+	public static void main(String[] args) {
+//		UpdatePatient form = new UpdatePatient(null, null);
+//		form.createView();
 	}
 }

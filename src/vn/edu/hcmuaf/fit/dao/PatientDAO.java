@@ -9,4 +9,9 @@ public interface PatientDAO {
     Patient findById(String id);
     void save(Patient patient);
     void remove(String id);
+    void removeAll();
+    
+    Patient findByRow(int row);
+    void update(Patient patient, int row);
+    void saveAll(List<Patient> list);
 }

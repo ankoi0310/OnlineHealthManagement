@@ -1,34 +1,52 @@
 package vn.edu.hcmuaf.fit.view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.List;
-import java.awt.*;
-import javax.swing.*;
 
-import java.awt.event.*;
-
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
 import vn.edu.hcmuaf.fit.App;
-import vn.edu.hcmuaf.fit.controller.admin.HomeController;
+import vn.edu.hcmuaf.fit.controller.user.HomeControllerUser;
 import vn.edu.hcmuaf.fit.database.DbManager;
 import vn.edu.hcmuaf.fit.handle.WordWrapCellRenderer;
-import vn.edu.hcmuaf.fit.model.*;
+import vn.edu.hcmuaf.fit.model.Patient;
+import vn.edu.hcmuaf.fit.model.Request;
+import vn.edu.hcmuaf.fit.model.User;
 
-public class Home extends JFrame implements WindowListener, ActionListener, KeyListener {
-	private final HomeController controller;
+public class Home_user extends JFrame implements WindowListener, ActionListener, KeyListener {
+	private final HomeControllerUser controller;
 	private final User user;
 	private JPanel pnlHeader, pnlBody, pnlTool;
 	private JTable tblRequest;
 	private JLabel lblHeader, lblName, lblRoleTitle, lblRole;
 	private JTextField tfSearch;
-	private JButton btnSearch, btnUpdate, btnUpdateInfo, btnRemove, btnLogout;
+	private JButton btnSearch, btnUpdate, btnUpdateInfo, btnRemove, btnLogout, btnCreate;
 	private JScrollPane scrollPane;
 	private JScrollBar scrollBar;
 	private DefaultTableModel dtm;
 
-	public Home(HomeController controller, User user) {
+	public Home_user(HomeControllerUser controller, User user) {
 		this.controller = controller;
 		this.user = user;
 	}
@@ -58,11 +76,11 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 		getContentPane().add(pnlBody);
 		pnlBody.setLayout(null);
 
-		String[] columnNames = { "ID", "Patient", "Phone", "Problem description", "Status" };
+		String[] columnNames = { "ID", "Patient", "Phone", "Problem description", "Address" };
 		dtm = new DefaultTableModel(columnNames, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
-				//all cells false
+				// all cells false
 				return false;
 			}
 		};
@@ -103,12 +121,12 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 		pnlBody.add(pnlTool);
 		pnlTool.setLayout(null);
 
-		btnUpdate = new JButton("Update Status");
-		btnUpdate.setBackground(new Color(255, 215, 0));
-		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnUpdate.setBounds(47, 198, 161, 40);
-		btnUpdate.addActionListener(this);
-		pnlTool.add(btnUpdate);
+		btnCreate = new JButton("Create Request");
+		btnCreate.setBackground(new Color(255, 215, 0));
+		btnCreate.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCreate.setBounds(47, 198, 161, 40);
+		btnCreate.addActionListener(this);
+		pnlTool.add(btnCreate);
 
 		btnUpdateInfo = new JButton("Profile");
 		btnUpdateInfo.setBackground(new Color(0, 204, 255));
@@ -161,21 +179,19 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 		addWindowListener(this);
 	}
 
-	//ve lai bang
 	public void redraw(List<Request> requests) {
 		dtm.setRowCount(0);
 		for (Request request : requests) {
 			StringBuilder patientInfo = new StringBuilder();
 			for (Patient patient : request.getPatients()) {
-				patientInfo.append(patient.getFullname())
-						.append(" - ").append(patient.getAge())
-						.append(" - ").append(patient.isMale() ? "Nam" : "Nữ")
-						.append(" - ").append(patient.getId()).append("|\n");
+				patientInfo.append(patient.getFullname()).append(" - ").append(patient.getAge()).append(" - ")
+						.append(patient.isMale() ? "Nam" : "Nữ").append(" - ").append(patient.getId()).append("|\n");
 			}
 
+			System.out.println(patientInfo.toString());
 			String status = DbManager.requestStatus.get(request.getStatus());
-			dtm.insertRow(dtm.getRowCount(), new Object[] { request.getId(), patientInfo.toString(),
-					request.getPhone(), request.getProblemDescription(), status });
+			dtm.insertRow(dtm.getRowCount(), new Object[] { request.getId(), patientInfo.toString(), request.getPhone(),
+					request.getProblemDescription(), request.getAddress() });
 		}
 	}
 
@@ -196,24 +212,25 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
-		if (btnSearch.equals(source)) controller.search();
-		else if (btnLogout.equals(source)) controller.logout();
-		else if (btnUpdate.equals(source)) {
-			int row = tblRequest.getSelectedRow();//dòng vừa được chọn
-			if (row == -1) //nếu chưa chọn dòng nào hết => row = -1
-				showError("Vui lòng chọn 1 dòng dữ liệu!");
-			else {
-				Long requestId = (Long) dtm.getValueAt(row, 0);
-				controller.getUpdateRequestStatus(requestId);
-			}
-		}
-		else if (btnUpdateInfo.equals(source)) controller.updateInfo();
-		else if (btnRemove.equals(source)) {
+		if (btnSearch.equals(source))
+			controller.search();
+		else if (btnLogout.equals(source))
+			controller.logout();
+		else if (btnCreate.equals(source)) {
+
+			controller.getCreateReques();// tạo ra view create
+
+		} else if (btnUpdateInfo.equals(source)) {
+			int row = tblRequest.getSelectedRow();
+			Long id = (Long) dtm.getValueAt(row, 0);
+			controller.getUpdateInfo(id);
+		} else if (btnRemove.equals(source)) {
 			int row = tblRequest.getSelectedRow();
 			if (row == -1)
 				showError("Vui lòng chọn 1 dòng dữ liệu!");
 			else {
-				int result = JOptionPane.showInternalConfirmDialog(null, "Bạn có chắc chắn muốn xóa?", "Xóa", JOptionPane.YES_NO_OPTION);
+				int result = JOptionPane.showInternalConfirmDialog(null, "Bạn có chắc chắn muốn xóa?", "Xóa",
+						JOptionPane.YES_NO_OPTION);
 
 				if (result == JOptionPane.YES_OPTION) {
 					Long requestId = (Long) dtm.getValueAt(row, 0);
@@ -221,6 +238,7 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 				}
 			}
 		}
+
 	}
 
 	@Override
@@ -235,11 +253,11 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
 
 		switch (result) {
-			case JOptionPane.OK_OPTION:
-				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				break;
-			case JOptionPane.CANCEL_OPTION:
-				break;
+		case JOptionPane.OK_OPTION:
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			break;
+		case JOptionPane.CANCEL_OPTION:
+			break;
 		}
 	}
 

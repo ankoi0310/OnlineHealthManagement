@@ -21,7 +21,7 @@ import java.awt.event.*;
 import javax.swing.JPasswordField;
 
 public class Login extends JFrame implements ActionListener, KeyListener {
-	private UserController controller;
+	private UserController controller; // nhung controller lien quan de user
 	private UserLogin model;
 	private JPanel contentPane;
 	private JLabel lblTitle, lblPhone, lblPassword;
@@ -31,7 +31,7 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 
 	public Login(UserController controller, UserLogin model) {
 		this.controller = controller;
-        this.model = model;
+		this.model = model;
 	}
 
 	public void createView() {
@@ -54,23 +54,21 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 		lblPhone.setBounds(60, 89, 136, 26);
 		contentPane.add(lblPhone);
 
-		tfUsername = new JTextField();
-		tfUsername.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		tfUsername.setBounds(206, 89, 166, 26);
-		tfUsername.setColumns(10);
-		tfUsername.addKeyListener(this);
-		contentPane.add(tfUsername);
-
 		lblPassword = new JLabel("Mật khẩu: ");
 		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblPassword.setBounds(60, 141, 136, 26);
 		contentPane.add(lblPassword);
 
+		tfUsername = new JTextField();
+		tfUsername.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		tfUsername.setBounds(206, 89, 166, 26);
+		contentPane.add(tfUsername);
+		tfUsername.setColumns(10);
+
 		pfPassword = new JPasswordField();
 		pfPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		pfPassword.setBounds(206, 141, 166, 26);
-		pfPassword.addKeyListener(this);
 		contentPane.add(pfPassword);
 
 		btnLogin = new JButton("Đăng nhập");
@@ -79,6 +77,7 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnLogin.setBounds(68, 197, 115, 23);
 		btnLogin.addActionListener(this);
+		btnLogin.addKeyListener(this);
 		contentPane.add(btnLogin);
 
 		btnRegister = new JButton("Đăng ký");
@@ -87,6 +86,7 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 		btnRegister.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnRegister.setBounds(251, 197, 115, 23);
 		btnRegister.addActionListener(this);
+		btnRegister.addKeyListener(this);
 		contentPane.add(btnRegister);
 
 		setVisible(true);
@@ -103,11 +103,6 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 	}
 
 	public void close() {
-		if (App.frames.size() == 1) {
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		} else {
-			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		}
 		dispose();
 		App.frames.remove(this);
 	}
@@ -124,14 +119,14 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
-		if (source.equals(btnLogin)) {
+		if (source.equals(btnLogin)) { // khi nut login duoc nhan
 			String username = tfUsername.getText();
 			String password = String.valueOf(pfPassword.getPassword());
-			controller.login(this, username, password);
+			controller.login(username, password);// hàm này là để chọn xem sẽ hiển thị Home của admin hay Home của user
 		}
 
-		if (source.equals(btnRegister)) {
-			controller.getRegister(this);
+		if (source.equals(btnRegister)) { //khi nut dang ky duoc nhan
+			controller.getRegister(); //hàm này tạo ra view đăng ký
 		}
 	}
 
@@ -142,11 +137,8 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			String username = tfUsername.getText();
-			String password = String.valueOf(pfPassword.getPassword());
-			controller.login(this, username, password);
-		}
+		if (e.getKeyCode() == KeyEvent.VK_ENTER)
+			btnLogin.doClick();
 	}
 
 	@Override

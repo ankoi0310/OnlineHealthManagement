@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.dao;
 import vn.edu.hcmuaf.fit.database.DbManager;
 import vn.edu.hcmuaf.fit.model.Patient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PatientDAOImpl implements PatientDAO {
@@ -27,11 +28,37 @@ public class PatientDAOImpl implements PatientDAO {
 
 	@Override
 	public void save(Patient patient) {
-
+		DbManager.patients.add(patient);
 	}
 
 	@Override
 	public void remove(String id) {
 		DbManager.patients.removeIf(p -> p.getId().equals(id));
 	}
+
+	@Override
+	public void removeAll() {
+		// TODO Auto-generated method stub
+		DbManager.patients = new ArrayList<Patient>();
+	}
+
+	@Override
+	public Patient findByRow(int row) {
+		// TODO Auto-generated method stub
+		return DbManager.patients.get(row);
+	}
+
+	@Override
+	public void update(Patient patient, int row) {
+		// TODO Auto-generated method stub
+		DbManager.patients.add(row+1, patient);
+		DbManager.patients.remove(row);
+	}
+
+	@Override
+	public void saveAll(List<Patient> list) {
+		// TODO Auto-generated method stub
+		DbManager.patients = list;
+	}
+	
 }

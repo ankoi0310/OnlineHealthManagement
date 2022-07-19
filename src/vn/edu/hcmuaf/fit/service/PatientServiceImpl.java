@@ -32,12 +32,46 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public AppBaseResult updatePatientInfo(Patient patient) {
-        return null;
+    public AppBaseResult updatePatientInfo(Patient patient,int row) {
+    	patientDAO.update(patient, row);
+        return new AppBaseResult(true, "Update thành công");
     }
 
     @Override
     public AppBaseResult removePatient(String id) {
-        return null;
+    	patientDAO.remove(id);
+        return new AppBaseResult(true, "Xóa thành công");
     }
+
+	@Override
+	public AppBaseResult addPatient(Patient patient) {
+		// TODO Auto-generated method stub
+		
+		patientDAO.save(patient);
+		return new AppBaseResult(true, "Đã thêm thành công");
+	}
+
+	@Override
+	public void removeAll() {
+		// TODO Auto-generated method stub
+		patientDAO.removeAll();
+	}
+
+	@Override
+	public AppResult<Patient> getPatientByRow(int row) {
+		// TODO Auto-generated method stub
+		Patient patient = patientDAO.findByRow(row);
+		if(patient != null) {
+			return new AppResult<Patient>(true, "lay thanh cong", patient);
+		}else
+			return new AppResult<Patient>(false, "khong tim thay", null);
+	}
+
+	@Override
+	public void saveAll(List<Patient> list) {
+		// TODO Auto-generated method stub
+		patientDAO.saveAll(list);
+	}
+    
+    
 }

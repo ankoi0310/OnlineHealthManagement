@@ -47,5 +47,8 @@ public class Patient {
 	public void setMale(boolean male) {
 		this.male = male;
 	}
-
+	
+	public String toString() {
+		return "id: " + id + ", fullname: " + fullname + ", age: " + age + ", male: " + male ;
+	}
 }
