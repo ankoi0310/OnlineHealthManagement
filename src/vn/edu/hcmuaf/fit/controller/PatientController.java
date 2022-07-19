@@ -29,6 +29,14 @@ public class PatientController {
 		form.createView();
 		App.frames.add(form);
 	}
+	
+	public PatientController(UpdateCreate update) {
+		this.patientService = new PatientServiceImpl();
+		upReView = update;
+		form = new PatientForm(this);
+		form.createView();
+		App.frames.add(form);
+	}
 
 	public PatientController(CreateRequestView view, int row) {
 		// TODO Auto-generated constructor stub

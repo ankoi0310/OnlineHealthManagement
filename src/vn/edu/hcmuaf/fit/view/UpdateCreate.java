@@ -138,7 +138,7 @@ public class UpdateCreate extends JFrame implements ActionListener {
 		lblPhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblPhone.setBounds(57, 260, 110, 27);
 		contentPane.add(lblPhone);
-		
+
 		tfPhone = new JTextField(request.getPhone());
 		tfPhone.setBounds(224, 260, 188, 27);
 		contentPane.add(tfPhone);
@@ -150,7 +150,7 @@ public class UpdateCreate extends JFrame implements ActionListener {
 		lblAddress.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblAddress.setBounds(57, 300, 110, 27);
 		contentPane.add(lblAddress);
-		
+
 		tfAddress = new JTextField(request.getAddress());
 		tfAddress.setBounds(224, 300, 188, 27);
 		contentPane.add(tfAddress);
@@ -210,42 +210,46 @@ public class UpdateCreate extends JFrame implements ActionListener {
 	public void showMessage(String message) {
 		JOptionPane.showMessageDialog(this, message);
 	}
-	
+
 	public void close() {
 		dispose();
 		App.frames.remove(this);
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object source = e.getSource();
-		if (btnAdd.equals(source)) {
-			control.getPatient(-1); // tao patient
-		} else if (btnUpdate.equals(source)) {
-			int row = tblRequest.getSelectedRow();
-			if (row == -1)
-				showError("Vui lòng chọn 1 dòng dữ liệu!");
-			else {
-				control.getPatient(row);
-			}
-		}else if(btnRemove.equals(source)) {
-			int row = tblRequest.getSelectedRow();
-			if (row == -1)
-				showError("Vui lòng chọn 1 dòng dữ liệu!");
-			else {
-				String id = (String) dtm.getValueAt(row, 0); //lay ra id cua dong duoc chon
-				control.deletePatient(id);
-			}
-		}else if(btnSubmit.equals(source)) {
-			String phone = tfPhone.getText();
-			String address = tfAddress.getText();
-			String proDesc = taProblem.getText();
-			
-			control.UpdateRequest(request.getId(), phone, address, proDesc);
-			
-		}else if (btnCancel_1.equals(source)) {
-			dispose();
-		}
+		try {
+			if (btnAdd.equals(source)) {
+				control.getPatient(-2); // tao patient voi UpdateCreate
+			} else if (btnUpdate.equals(source)) {
+				int row = tblRequest.getSelectedRow();
+				if (row == -1)
+					showError("Vui lòng chọn 1 dòng dữ liệu!");
+				else {
+					control.getPatient(row);
+				}
+			} else if (btnRemove.equals(source)) {
+				int row = tblRequest.getSelectedRow();
+				if (row == -1)
+					showError("Vui lòng chọn 1 dòng dữ liệu!");
+				else {
+					String id = (String) dtm.getValueAt(row, 0); // lay ra id cua dong duoc chon
+					control.deletePatient(id);
+				}
+			} else if (btnSubmit.equals(source)) {
+				String phone = tfPhone.getText();
+				String address = tfAddress.getText();
+				String proDesc = taProblem.getText();
 
+				control.UpdateRequest(request.getId(), phone, address, proDesc, request.getUser());
+
+			} else if (btnCancel_1.equals(source)) {
+				dispose();
+			}
+		} catch (Exception e1) {
+			System.out.println("Error");
+		}
 	}
 }

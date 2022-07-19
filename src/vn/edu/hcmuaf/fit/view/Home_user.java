@@ -188,7 +188,7 @@ public class Home_user extends JFrame implements WindowListener, ActionListener,
 						.append(patient.isMale() ? "Nam" : "Nữ").append(" - ").append(patient.getId()).append("|\n");
 			}
 
-			System.out.println(patientInfo.toString());
+//			System.out.println(patientInfo.toString());
 			String status = DbManager.requestStatus.get(request.getStatus());
 			dtm.insertRow(dtm.getRowCount(), new Object[] { request.getId(), patientInfo.toString(), request.getPhone(),
 					request.getProblemDescription(), request.getAddress() });

@@ -109,9 +109,9 @@ public class CreateRequestView extends JFrame implements ActionListener {
 		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnAdd.setBackground(Color.GREEN);
 		btnAdd.setBounds(15, 210, 115, 23);
-//		btnAdd.addActionListener(this);
-		contentPane.add(btnAdd);
 		btnAdd.addActionListener(this);
+		contentPane.add(btnAdd);
+//		btnAdd.addActionListener(this);
 
 		//
 		btnUpdate = new JButton("Update");
@@ -142,7 +142,7 @@ public class CreateRequestView extends JFrame implements ActionListener {
 		tfPhone.setBounds(224, 260, 188, 27);
 		contentPane.add(tfPhone);
 		tfPhone.setColumns(10);
-//		tfPhone.addActionListener(this);
+		tfPhone.addActionListener(this);
 		//
 		JLabel lblAddress = new JLabel("Address: ");
 		lblAddress.setHorizontalAlignment(SwingConstants.LEFT);
@@ -154,7 +154,7 @@ public class CreateRequestView extends JFrame implements ActionListener {
 		tfAddress.setBounds(224, 300, 188, 27);
 		contentPane.add(tfAddress);
 		tfAddress.setColumns(10);
-//		tfAddress.addActionListener(this);
+		tfAddress.addActionListener(this);
 		//
 		JLabel lblProblem = new JLabel("Problem Description: ");
 		lblProblem.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -218,8 +218,10 @@ public class CreateRequestView extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object source = e.getSource();
-		if (btnAdd.equals(source)) {
+		try {
+			if (btnAdd.equals(source)) {
 			control.getPatient(-1); // tao patient
+			
 		} else if (btnUpdate.equals(source)) {
 			int row = tblRequest.getSelectedRow();
 			if (row == -1)
@@ -245,6 +247,11 @@ public class CreateRequestView extends JFrame implements ActionListener {
 		}else if (btnCancel_1.equals(source)) {
 			dispose();
 		}
+		} catch (Exception e2) {
+			// TODO: handle exception
+			System.out.println("Errror");
+		}
+		
 
 	}
 }

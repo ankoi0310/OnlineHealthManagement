@@ -76,4 +76,11 @@ public class RequestServiceImpl implements RequestService {
 		return new AppBaseResult(true, "Xóa thành công!");
 	}
 
+	@Override
+	public AppResult<List<Request>> getRequest(String id) {
+		// TODO Auto-generated method stub
+		List<Request> requests = requestDAO.findByUserId(id);
+		return new AppResult<>(true, "Success", requests);
+	}
+
 }

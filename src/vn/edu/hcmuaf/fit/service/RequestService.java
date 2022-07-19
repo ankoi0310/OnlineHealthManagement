@@ -13,4 +13,5 @@ public interface RequestService {
 	AppBaseResult updateRequest(Request request);
 	AppBaseResult updateStatus(Long id, int status);
     AppBaseResult removeRequest(Long id);
+    AppResult<List<Request>>getRequest(String id);
 }

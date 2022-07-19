@@ -9,4 +9,5 @@ public interface RequestDAO {
 	Request findById(Long id);
 	void save(Request request);
 	void remove(Long id);
+	List<Request> findByUserId(String userID);
 }

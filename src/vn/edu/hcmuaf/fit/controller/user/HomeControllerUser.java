@@ -48,7 +48,7 @@ public class HomeControllerUser {
 	}
 
 	public void getRequests() {
-		List<Request> requests = requestService.getRequests().getData();
+		List<Request> requests = requestService.getRequest(user.getId()).getData();
 
 		viewUser.redraw(requests);
 
