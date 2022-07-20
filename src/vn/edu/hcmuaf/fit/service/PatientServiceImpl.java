@@ -47,8 +47,24 @@ public class PatientServiceImpl implements PatientService {
 	public AppBaseResult addPatient(Patient patient) {
 		// TODO Auto-generated method stub
 		
-		patientDAO.save(patient);
-		return new AppBaseResult(true, "Đã thêm thành công");
+		try {
+			if (patient.getId().isBlank())
+				return new AppBaseResult(false,"Vui lòng CMND");
+
+			if (patient.getFullname().isBlank())
+				return new AppBaseResult(false,"Vui lòng nhập tên");
+
+			if (patient.getAge() == 0)
+				return new AppBaseResult(false,"Vui lòng nhập tuổi");
+
+				patientDAO.save(patient);
+			//
+			return new AppBaseResult(true, "Thêm patient thành công");
+		} catch (Exception e) {
+			return new AppBaseResult(false,"Thêm patient không thành công");
+		}
+		
+//		return new AppBaseResult(true, "Đã thêm thành công");
 	}
 
 	@Override

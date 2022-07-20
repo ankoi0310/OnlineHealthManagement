@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+
 import vn.edu.hcmuaf.fit.dao.RequestDAO;
 import vn.edu.hcmuaf.fit.dao.RequestDAOImpl;
 import vn.edu.hcmuaf.fit.handle.AppBaseResult;
@@ -36,9 +37,25 @@ public class RequestServiceImpl implements RequestService {
 
 	@Override
 	public AppBaseResult createRequest(Request request) {
-		requestDAO.save(request);
-		
-		return new AppBaseResult(true, "Tạo yêu cầu thành công");
+		try {
+			if (request.getPatients().isEmpty())
+				return new AppBaseResult(false,"Vui lòng thêm bệnh nhân");
+
+			if (request.getPhone().isBlank())
+				return new AppBaseResult(false,"Vui lòng nhập số điện thoại");
+
+			if (request.getAddress().isBlank())
+				return new AppBaseResult(false,"Vui lòng nhập địa chỉ");
+
+			if (request.getProblemDescription().isBlank())
+				return new AppBaseResult(false,"Vui lòng nhập Problem Description");
+			
+				requestDAO.save(request);
+			//
+			return new AppBaseResult(true, "Tạo yêu cầu thành công");
+		} catch (Exception e) {
+			return new AppBaseResult(false,"Tạo yêu cầu không thành công");
+		}
 	}
 
 	@Override

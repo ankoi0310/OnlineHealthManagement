@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.controller;
 import java.util.List;
 
 import vn.edu.hcmuaf.fit.App;
+import vn.edu.hcmuaf.fit.constant.RequestStatusConstant;
 import vn.edu.hcmuaf.fit.handle.AppBaseResult;
 import vn.edu.hcmuaf.fit.model.Patient;
 import vn.edu.hcmuaf.fit.model.Request;
@@ -79,10 +80,12 @@ public class RequestController {
 	public void deletePatient(String id) {
 		AppBaseResult result = patientService.removePatient(id);
 
-		if (result.isSuccess()) {
+		if (result.isSuccess() && create != null) {
 			create.showMessage(result.getMessage());
 			create.redraw(patientService.getPatients().getData());
-
+		}else {
+			update.showMessage(result.getMessage());
+			update.redraw(patientService.getPatients().getData());
 		}
 	}
 
@@ -96,7 +99,8 @@ public class RequestController {
 //			currentCreate.redraw(patientService.getPatients().getData());
 			currentCreate.close();
 			viewUser.redraw(requestService.getRequest(user.getId()).getData());
-
+		}else {
+			currentCreate.showMessage(result.getMessage());
 		}
 	}
 

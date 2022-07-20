@@ -98,7 +98,7 @@ public class UpdateRequestStatus extends JFrame implements ActionListener {
 			int status = cbStatus.getSelectedIndex();
 			controller.updateRequestStatus(model.getId(), status);
 		} else if (btnCancel.equals(source)) {
-			dispose();
+			close();
 		}
 	}
 }

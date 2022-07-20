@@ -12,6 +12,7 @@ import vn.edu.hcmuaf.fit.service.UserService;
 import vn.edu.hcmuaf.fit.service.UserServiceImpl;
 import vn.edu.hcmuaf.fit.view.Login;
 import vn.edu.hcmuaf.fit.view.Registration;
+import vn.edu.hcmuaf.fit.view.UpdateUser;
 
 import javax.swing.*;
 
@@ -24,6 +25,13 @@ public class UserController {
 
 		this.model = model;
 	}
+	
+	public void getUpdateUser() {
+		UpdateUser update = new UpdateUser(model, this);
+		
+		update.createView();
+		App.frames.add(update);
+	}
 
 	public void getRegister() {
 		Registration view = new Registration(this, new User());
@@ -32,6 +40,18 @@ public class UserController {
 		App.frames.add(view);
 	}
 
+	public void update(User user, User newUser) {
+		UpdateUser currentUpdateUser = (UpdateUser) App.frames.peek();
+		AppBaseResult result = userService.updateProfile(user, newUser);
+		
+		if (result.isSuccess()) {
+			currentUpdateUser.showMessage(result.getMessage());
+			currentUpdateUser.close();
+		} else {
+			currentUpdateUser.showError(result.getMessage());
+		}
+		
+	}
 	public void register(User user) {
 		Registration registration = (Registration) App.frames.peek();
 		AppBaseResult result = userService.register(user);

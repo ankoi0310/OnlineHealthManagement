@@ -22,7 +22,7 @@ import javax.swing.JPasswordField;
 import java.awt.event.*;
 import javax.swing.JRadioButton;
 
-public class Registration extends JFrame implements ActionListener, KeyListener {
+public class UpdateUser extends JFrame implements ActionListener, KeyListener {
 	private UserController controller;
 	private User model;
 	private JPanel contentPane;
@@ -32,9 +32,9 @@ public class Registration extends JFrame implements ActionListener, KeyListener 
 	private JButton btnCancel, btnRegister;
 	private JRadioButton rdbtnMale, rdbtnFemale;
 
-	public Registration(UserController controller, User model) {
-		this.controller = controller;
+	public UpdateUser(User model, UserController control) {
 		this.model = model;
+		controller = control;
 	}
 
 	public void createView() {
@@ -57,7 +57,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener 
 		lblFullname.setBounds(75, 69, 71, 26);
 		contentPane.add(lblFullname);
 
-		tfFullname = new JTextField();
+		tfFullname = new JTextField(model.getFullname());
 		tfFullname.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		tfFullname.setColumns(10);
 		tfFullname.setBounds(145, 69, 196, 26);
@@ -69,7 +69,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener 
 		lblAge.setBounds(382, 69, 46, 26);
 		contentPane.add(lblAge);
 
-		tfAge = new JTextField();
+		tfAge = new JTextField(model.getAge() + "");
 		tfAge.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		tfAge.setBounds(426, 69, 78, 26);
 		contentPane.add(tfAge);
@@ -81,14 +81,16 @@ public class Registration extends JFrame implements ActionListener, KeyListener 
 		lblId.setBounds(31, 113, 115, 26);
 		contentPane.add(lblId);
 
-		tfId = new JTextField();
+		tfId = new JTextField(model.getId());
 		tfId.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		tfId.setColumns(10);
 		tfId.setBounds(145, 113, 196, 26);
 		contentPane.add(tfId);
 
 		rdbtnMale = new JRadioButton("Nam");
-		rdbtnMale.setSelected(true);
+		if (model.isMale()) {
+			rdbtnMale.setSelected(true);
+		}
 		rdbtnMale.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rdbtnMale.setBounds(367, 113, 59, 26);
 		contentPane.add(rdbtnMale);
@@ -96,6 +98,9 @@ public class Registration extends JFrame implements ActionListener, KeyListener 
 		rdbtnFemale = new JRadioButton("Nữ");
 		rdbtnFemale.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rdbtnFemale.setBounds(438, 113, 46, 26);
+		if (!model.isMale()) {
+			rdbtnFemale.setSelected(true);
+		}
 		contentPane.add(rdbtnFemale);
 
 		ButtonGroup bg = new ButtonGroup();
@@ -108,7 +113,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener 
 		lblPhone.setBounds(10, 157, 136, 26);
 		contentPane.add(lblPhone);
 
-		tfPhone = new JTextField();
+		tfPhone = new JTextField(model.getPhone());
 		tfPhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		tfPhone.setBounds(145, 157, 196, 26);
 		contentPane.add(tfPhone);
@@ -131,13 +136,13 @@ public class Registration extends JFrame implements ActionListener, KeyListener 
 		lblAddress.setBounds(10, 245, 136, 26);
 		contentPane.add(lblAddress);
 
-		tfAddress = new JTextField();
+		tfAddress = new JTextField(model.getAddress());
 		tfAddress.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		tfAddress.setColumns(10);
 		tfAddress.setBounds(145, 245, 359, 26);
 		contentPane.add(tfAddress);
 
-		btnRegister = new JButton("Đăng ký");
+		btnRegister = new JButton("Update");
 		btnRegister.setForeground(Color.WHITE);
 		btnRegister.setBackground(new Color(0, 153, 255));
 		btnRegister.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -176,24 +181,21 @@ public class Registration extends JFrame implements ActionListener, KeyListener 
 		Object source = e.getSource();
 
 		if (source.equals(btnRegister)) {
-			try {
-			model.setId(tfId.getText());
-			model.setFullname(tfFullname.getText());
-			model.setAge(Integer.parseInt(tfAge.getText()));
-			model.setPhone(tfPhone.getText());
-			model.setAddress(tfAddress.getText());
-			model.setPassword(pfPassword.getText());
-			model.setMale(rdbtnMale.isSelected());
 
-			}catch (NumberFormatException e2) {
-				// TODO: handle exception
-				JOptionPane.showMessageDialog(this, "Số tuổi bị sai");
-			}
-			controller.register(model);
+			User user = new User();
+			user.setId(tfId.getText());
+			user.setFullname(tfFullname.getText());
+			user.setAge(Integer.parseInt(tfAge.getText()));
+			user.setPhone(tfPhone.getText());
+			user.setAddress(tfAddress.getText());
+			user.setPassword(pfPassword.getText());
+			user.setMale(rdbtnMale.isSelected());
+
+			controller.update(model, user);
 		}
 
 		if (source.equals(btnCancel)) {
-			controller.unregister();
+			close();
 		}
 	}
 

@@ -41,7 +41,7 @@ public class Home_user extends JFrame implements WindowListener, ActionListener,
 	private JTable tblRequest;
 	private JLabel lblHeader, lblName, lblRoleTitle, lblRole;
 	private JTextField tfSearch;
-	private JButton btnSearch, btnUpdate, btnUpdateInfo, btnRemove, btnLogout, btnCreate;
+	private JButton btnSearch, btnUpdate, btnUpdateInfo, btnRemove, btnLogout, btnCreate, btnUpdateRequest;
 	private JScrollPane scrollPane;
 	private JScrollBar scrollBar;
 	private DefaultTableModel dtm;
@@ -120,6 +120,14 @@ public class Home_user extends JFrame implements WindowListener, ActionListener,
 		pnlTool.setBounds(1028, 55, 256, 486);
 		pnlBody.add(pnlTool);
 		pnlTool.setLayout(null);
+
+		btnUpdateRequest = new JButton("Update");
+
+		btnUpdateRequest.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnUpdateRequest.setBackground(new Color(255, 215, 0));
+		btnUpdateRequest.setBounds(47, 135, 161, 40);
+		pnlTool.add(btnUpdateRequest);
+		btnUpdateRequest.addActionListener(this);
 
 		btnCreate = new JButton("Create Request");
 		btnCreate.setBackground(new Color(255, 215, 0));
@@ -212,18 +220,26 @@ public class Home_user extends JFrame implements WindowListener, ActionListener,
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
+		try {
 		if (btnSearch.equals(source))
 			controller.search();
 		else if (btnLogout.equals(source))
 			controller.logout();
-		else if (btnCreate.equals(source)) {
+		else if (btnUpdateRequest.equals(source)) {
+			int row = tblRequest.getSelectedRow();
+			if (row == -1)
+				showError("Vui lòng chọn 1 dòng dữ liệu!");
+			else {
+				Long id = (Long) dtm.getValueAt(row, 0);
+				controller.getUpdateRequest(id);
+			}
+		} else if (btnCreate.equals(source)) {
 
 			controller.getCreateReques();// tạo ra view create
 
 		} else if (btnUpdateInfo.equals(source)) {
-			int row = tblRequest.getSelectedRow();
-			Long id = (Long) dtm.getValueAt(row, 0);
-			controller.getUpdateInfo(id);
+			controller.getUpdateInfo(user);
+			
 		} else if (btnRemove.equals(source)) {
 			int row = tblRequest.getSelectedRow();
 			if (row == -1)
@@ -238,7 +254,9 @@ public class Home_user extends JFrame implements WindowListener, ActionListener,
 				}
 			}
 		}
-
+		}catch(Exception e1) {
+			System.out.println("Error");
+		}
 	}
 
 	@Override

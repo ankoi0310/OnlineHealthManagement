@@ -70,6 +70,8 @@ public class PatientController {
 			currentFrame.close();
 			getRequests();
 
+		}else {
+			currentFrame.showMessage(result.getMessage());
 		}
 	}
 

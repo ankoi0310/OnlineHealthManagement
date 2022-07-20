@@ -162,7 +162,7 @@ public class UpdatePatient extends JFrame implements ActionListener {
 			for(Patient p: patients) {
 				System.out.println(p);
 			}
-			dispose();
+			close();
 		}
 	}
 	

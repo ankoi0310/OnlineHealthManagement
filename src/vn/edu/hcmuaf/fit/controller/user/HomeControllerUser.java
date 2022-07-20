@@ -3,11 +3,9 @@ package vn.edu.hcmuaf.fit.controller.user;
 import java.util.List;
 
 import vn.edu.hcmuaf.fit.App;
-import vn.edu.hcmuaf.fit.constant.RoleConstant;
 import vn.edu.hcmuaf.fit.controller.RequestController;
 import vn.edu.hcmuaf.fit.controller.UserController;
 import vn.edu.hcmuaf.fit.handle.AppBaseResult;
-import vn.edu.hcmuaf.fit.handle.AppResult;
 import vn.edu.hcmuaf.fit.model.Request;
 import vn.edu.hcmuaf.fit.model.User;
 import vn.edu.hcmuaf.fit.service.PatientService;
@@ -16,8 +14,6 @@ import vn.edu.hcmuaf.fit.service.RequestService;
 import vn.edu.hcmuaf.fit.service.RequestServiceImpl;
 import vn.edu.hcmuaf.fit.service.UserService;
 import vn.edu.hcmuaf.fit.service.UserServiceImpl;
-import vn.edu.hcmuaf.fit.view.CreateRequestView;
-import vn.edu.hcmuaf.fit.view.Home;
 import vn.edu.hcmuaf.fit.view.Home_user;
 import vn.edu.hcmuaf.fit.view.UpdateRequestStatus;
 
@@ -81,9 +77,12 @@ public class HomeControllerUser {
 	public void search() {
 	}
 
-	public void getUpdateInfo(Long id) {
-		
+	public void getUpdateRequest(Long id) {
 		new RequestController(viewUser, requestService.getRequest(id).getData());
+	}
+	public void getUpdateInfo(User user) {
+		UserController userc = new UserController(user);
+		userc.getUpdateUser();
 	}
 
 	public void updateInfo() {

@@ -24,6 +24,8 @@ public class AdminHomeController {
         this.requestService = new RequestServiceImpl();
         this.patientService = new PatientServiceImpl();
 
+        
+        
         this.user = user;
         view = new Home(this, user);
         view.createView();

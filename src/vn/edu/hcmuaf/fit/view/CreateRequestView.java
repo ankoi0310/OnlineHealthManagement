@@ -234,8 +234,14 @@ public class CreateRequestView extends JFrame implements ActionListener {
 			if (row == -1)
 				showError("Vui lòng chọn 1 dòng dữ liệu!");
 			else {
-				String id = (String) dtm.getValueAt(row, 0); //lay ra id cua dong duoc chon
-				control.deletePatient(id);
+				int result = JOptionPane.showInternalConfirmDialog(null, "Bạn có chắc chắn muốn xóa?", "Xóa",
+						JOptionPane.YES_NO_OPTION);
+
+				if (result == JOptionPane.YES_OPTION) {
+					String id = (String) dtm.getValueAt(row, 0); //lay ra id cua dong duoc chon
+					control.deletePatient(id);
+				}
+				
 			}
 		}else if(btnSubmit.equals(source)) {
 			String phone = tfPhone.getText();
@@ -245,7 +251,7 @@ public class CreateRequestView extends JFrame implements ActionListener {
 			control.CreateRquest(phone, address, proDesc);
 			
 		}else if (btnCancel_1.equals(source)) {
-			dispose();
+			close();
 		}
 		} catch (Exception e2) {
 			// TODO: handle exception

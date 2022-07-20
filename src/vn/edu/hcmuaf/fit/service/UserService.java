@@ -8,5 +8,6 @@ import vn.edu.hcmuaf.fit.model.User;
 public interface UserService {
 	AppBaseResult register(User user);
 	AppResult<User> login(UserLogin userLogin);
-	AppBaseResult updateProfile(User user);
+	AppBaseResult updateProfile(User user, User newUser);
+	
 }
