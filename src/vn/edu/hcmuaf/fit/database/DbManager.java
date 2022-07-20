@@ -10,7 +10,6 @@ import vn.edu.hcmuaf.fit.model.Request;
 import vn.edu.hcmuaf.fit.model.User;
 
 public class DbManager {
-	public static Map<Integer, String> requestStatus = new HashMap<>();
 	public static List<User> users = new ArrayList<>();
 	public static List<Request> requests = new ArrayList<>();
 	public static List<Patient> patients = new ArrayList<>();

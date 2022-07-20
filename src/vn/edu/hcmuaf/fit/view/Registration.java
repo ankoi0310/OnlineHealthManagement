@@ -10,7 +10,6 @@ import javax.swing.border.EmptyBorder;
 
 import vn.edu.hcmuaf.fit.App;
 import vn.edu.hcmuaf.fit.controller.UserController;
-import vn.edu.hcmuaf.fit.dto.Role;
 import vn.edu.hcmuaf.fit.model.User;
 
 import javax.swing.JLabel;
@@ -32,7 +31,6 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 	private JPasswordField pfPassword;
 	private JButton btnCancel, btnRegister;
 	private JRadioButton rdbtnMale, rdbtnFemale;
-	private Login login;
 
 	public Registration(UserController controller, User model) {
 		this.controller = controller;
@@ -159,14 +157,6 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		addWindowListener(this);
 		setLocationRelativeTo(null);
-	}
-
-	public void setCurrentLogin(Login login) {
-		this.login = login;
-	}
-
-	public Login getCurrentLogin() {
-		return login;
 	}
 
 	public void showMessage(String message) {

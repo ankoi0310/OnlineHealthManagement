@@ -201,12 +201,12 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 			}
 
 			String status = switch (request.getStatus()) {
-				case 0 -> PENDING.getMessage();
-				case 1 -> SUBMITTED.getMessage();
-				case 2 -> REQUEST_AMBULANCE.getMessage();
-				case 3 -> AMBULANCE_MOVING.getMessage();
-				case 4 -> AMBULANCE_ARRIVED.getMessage();
-				case 5 -> COMPLETED.getMessage();
+				case 0 -> PENDING.message();
+				case 1 -> SUBMITTED.message();
+				case 2 -> REQUEST_AMBULANCE.message();
+				case 3 -> AMBULANCE_MOVING.message();
+				case 4 -> AMBULANCE_ARRIVED.message();
+				case 5 -> COMPLETED.message();
 				default -> null;
 			};
 
@@ -264,7 +264,7 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 	@Override
 	public void windowOpened(WindowEvent e) {
 		lblName.setText(user.getFullname());
-		lblRole.setText(user.getRole().getName());
+		lblRole.setText(user.getRole().name());
 	}
 
 	@Override
@@ -274,7 +274,6 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 
 		switch (result) {
 			case JOptionPane.OK_OPTION:
-				System.out.println(App.frames.size());
 				if (App.frames.size() == 1) {
 					setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				} else {
@@ -324,6 +323,6 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
+		controller.search(tfSearch.getText());
 	}
 }

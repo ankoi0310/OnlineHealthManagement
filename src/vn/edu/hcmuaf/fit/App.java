@@ -23,23 +23,14 @@ public class App {
 		frameMap.put(HOSPITAL, new Stack<>());
 		frameMap.put(USER, new Stack<>());
 
-		User admin = new User();
-		UserController adminController = new UserController(admin);
+		UserController adminController = new UserController();
 		adminController.getLogin();
 
-		User user = new User();
-		UserController userController = new UserController(user);
-		userController.getLogin();
+		// UserController userController = new UserController();
+		// userController.getLogin();
 	}
 	
 	private static void initData() {
-		// Tạo trạng thái
-		DbManager.requestStatus.put(0, "Chờ xử lý");
-		DbManager.requestStatus.put(1, "Đang xử lý");
-		DbManager.requestStatus.put(2, "Đang yêu cầu xe cấp cứu");
-		DbManager.requestStatus.put(3, "Xe cấp cứu đang di chuyển");
-		DbManager.requestStatus.put(4, "Yêu cầu hoàn thành");
-		
 		// Tạo thông tin người quản lý
 		User admin = new User("1", "Admin", 19, true, "1", 
 				"8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92", "ABCXYZ", ADMIN);
@@ -89,23 +80,23 @@ public class App {
 		List<Patient> patients1 = new ArrayList<>();
 		patients1.add(patient1);
 		Request request1 = new Request(1L, patients1, user1.getPhone(), user1.getAddress(),
-				"Bệnh nhân đang trong tình trạng nguy cấp, cần xe cấp cứu ngay!", PENDING.getStatus(), user1);
+				"Bệnh nhân đang trong tình trạng nguy cấp, cần xe cấp cứu ngay!", PENDING.status(), user1);
 
 		List<Patient> patients2 = new ArrayList<>();
 		patients2.add(patient2);
 		Request request2 = new Request(2L, patients2, user2.getPhone(), user2.getAddress(),
-				"Khó thở, chóng mặt!", SUBMITTED.getStatus(), user2);
+				"Khó thở, chóng mặt!", SUBMITTED.status(), user2);
 
 		List<Patient> patients3 = new ArrayList<>();
 		patients3.add(patient3);
 		patients3.add(patient4);
 		Request request3 = new Request(3L, patients3, user3.getPhone(), user3.getAddress(),
-				"Tai nạn giao thông, 2 người bất tỉnh!", REQUEST_AMBULANCE.getStatus(), user3);
+				"Tai nạn giao thông, 2 người bất tỉnh!", REQUEST_AMBULANCE.status(), user3);
 
 		List<Patient> patients4 = new ArrayList<>();
 		patients4.add(patient5);
 		Request request4 = new Request(4L, patients4, user4.getPhone(), user4.getAddress(),
-				"Ho nhiều, mất vị giác!", COMPLETED.getStatus(), user4);
+				"Ho nhiều, mất vị giác!", COMPLETED.status(), user4);
 
 		DbManager.requests.add(request1);
 		DbManager.requests.add(request2);

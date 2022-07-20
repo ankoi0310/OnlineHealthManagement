@@ -51,7 +51,7 @@ public class UpdateRequestStatus extends JFrame implements ActionListener {
 		cbStatus = new JComboBox<>();
 		cbStatus.setFont(new Font("Tahoma", Font.BOLD, 16));
 		cbStatus.setModel(new DefaultComboBoxModel<>(new String[] {
-				"Chờ xử lý", "Đã tiếp nhận", "Đã yêu cầu sử dụng xe",
+				"Chờ xử lý", "Đã tiếp nhận", "Đang yêu cầu sử dụng xe",
 				"Xe đang di chuyển", "Xe đã đến", "Yêu cầu hoàn thành"
 		}));
 		cbStatus.setBounds(83, 53, 268, 32);

@@ -12,37 +12,29 @@ import vn.edu.hcmuaf.fit.service.UserServiceImpl;
 import vn.edu.hcmuaf.fit.view.Login;
 import vn.edu.hcmuaf.fit.view.Registration;
 
-import javax.swing.*;
-
 import static vn.edu.hcmuaf.fit.constant.RoleConstant.*;
 
 public class UserController {
-	private final User model;
+	private Registration registration;
+	private Login login;
 	private final UserService userService;
 	
-	public UserController(User model) {
+	public UserController() {
 		this.userService = new UserServiceImpl();
-
-		this.model = model;
 	}
 
-	public void getRegister(Login login) {
+	public void getRegister() {
+		registration = new Registration(this, new User());
+		registration.createView();
 		login.off();
 
-		Registration view = new Registration(this, model);
-		view.createView();
-		view.setCurrentLogin(login);
-
-		App.frames.add(view);
+		App.frames.add(registration);
 	}
 	
 	public void register(User user) {
-		Registration registration = (Registration) App.frames.peek();
 		AppBaseResult result = userService.register(user);
 
 		if (result.isSuccess()) {
-			Login login = registration.getCurrentLogin();
-
 			registration.showMessage(result.getMessage());
 			registration.close();
 			login.on();
@@ -53,26 +45,24 @@ public class UserController {
 
 	public void unregister(Registration registration) {
 		registration.close();
-
-		Login login = registration.getCurrentLogin();
 		login.on();
 	}
 
 	public void getLogin() {
-		Login view = new Login(this, new UserLogin());
-		view.createView();
+		login = new Login(this, new UserLogin());
+		login.createView();
 
-		App.frames.add(view);
+		App.frames.add(login);
 	}
 
-	public void login(Login view, String username, String password) {
-		AppResult<User> result = userService.login(new UserLogin(username, password));
+	public void login(UserLogin userLogin) {
+		AppResult<User> result = userService.login(userLogin);
 
 		if (result.isSuccess()) {
 			User user = result.getData();
 
-			view.showMessage(result.getMessage());
-			view.close();
+			login.showMessage(result.getMessage());
+			login.close();
 
 			if (ADMIN.equals(user.getRole()) || EMPLOYEE.equals(user.getRole()) || HOSPITAL.equals(user.getRole())) {
 				new AdminHomeController(user);
@@ -80,7 +70,7 @@ public class UserController {
 				new ClientHomeController(user);
 			}
 		} else {
-			view.showError(result.getMessage());
+			login.showError(result.getMessage());
 		}
 	}
 }

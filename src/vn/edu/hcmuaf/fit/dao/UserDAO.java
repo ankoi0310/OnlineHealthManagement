@@ -7,6 +7,5 @@ import vn.edu.hcmuaf.fit.model.User;
 public interface UserDAO {
 	List<User> findAll();
 	User findById(String id);
-	User findByPhone(String phone);
 	void save(User user);
 }

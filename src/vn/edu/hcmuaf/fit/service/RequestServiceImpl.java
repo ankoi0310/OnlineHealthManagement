@@ -3,13 +3,11 @@ package vn.edu.hcmuaf.fit.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import vn.edu.hcmuaf.fit.constant.RequestStatusConstant;
 import vn.edu.hcmuaf.fit.dao.*;
-import vn.edu.hcmuaf.fit.dto.RequestStatus;
 import vn.edu.hcmuaf.fit.handle.*;
 import vn.edu.hcmuaf.fit.model.*;
 
-import static vn.edu.hcmuaf.fit.constant.RequestStatusConstant.PENDING;
+import static vn.edu.hcmuaf.fit.constant.RequestStatusConstant.*;
 
 public class RequestServiceImpl implements RequestService {
 	private final RequestDAO requestDAO;
@@ -44,7 +42,7 @@ public class RequestServiceImpl implements RequestService {
 	@Override
 	public AppBaseResult createRequest(Request request) {
 		requestDAO.save(request);
-		
+
 		return new AppBaseResult(true, "Tạo yêu cầu thành công");
 	}
 
@@ -86,31 +84,67 @@ public class RequestServiceImpl implements RequestService {
 		List<Request> requests = new ArrayList<>();
 
 		if (keyword.isEmpty()) {
-			return new AppResult<>(true, "Success", requests);
+			return new AppResult<>(true, "Success", requestDAO.findAll());
 		}
 
 		loop: for (Request request : requestDAO.findAll()) {
 			List<Patient> patients = request.getPatients();
 
 			switch (request.getStatus()) {
-				case 1:
-					if (PENDING.getMessage().contains(keyword)) requests.add(request);
-					continue;
+				case 0 -> {
+					if (PENDING.message().toLowerCase().contains(keyword.toLowerCase())) {
+						requests.add(request);
+						continue;
+					}
+				}
+				case 1 -> {
+					if (SUBMITTED.message().toLowerCase().contains(keyword.toLowerCase())) {
+						requests.add(request);
+						continue;
+					}
+				}
+				case 2 -> {
+					if (REQUEST_AMBULANCE.message().toLowerCase().contains(keyword.toLowerCase())) {
+						requests.add(request);
+						continue;
+					}
+				}
+				case 3 -> {
+					if (AMBULANCE_MOVING.message().toLowerCase().contains(keyword.toLowerCase())) {
+						requests.add(request);
+						continue;
+					}
+				}
+				case 4 -> {
+					if (AMBULANCE_ARRIVED.message().toLowerCase().contains(keyword.toLowerCase())) {
+						requests.add(request);
+						continue;
+					}
+				}
+				case 5 -> {
+					if (COMPLETED.message().contains(keyword)) {
+						requests.add(request);
+						continue;
+					}
+				}
 			}
 
 			if (request.getId().toString().contains(keyword) ||
 				request.getPhone().contains(keyword) ||
-				request.getAddress().contains(keyword) ||
-				request.getProblemDescription().contains(keyword)) {
+				request.getAddress().toLowerCase().contains(keyword.toLowerCase()) ||
+				request.getProblemDescription().toLowerCase().contains(keyword.toLowerCase())) {
 				requests.add(request);
-			} else if (patients.size() > 0) {
-				for (Patient patient : patients) {
-					if (patient.getId().contains(keyword) ||
-						patient.getFullname().contains(keyword) ||
-						String.valueOf(patient.getAge()).contains(keyword)) {
-						requests.add(request);
-						continue loop;
-					}
+				continue;
+			}
+
+			for (Patient patient : patients) {
+				if (patient.getId().contains(keyword) ||
+					patient.getFullname().toLowerCase().contains(keyword.toLowerCase()) ||
+					String.valueOf(patient.getAge()).contains(keyword) ||
+					(patient.isMale() && keyword.equalsIgnoreCase("nam")) ||
+					(!patient.isMale() && keyword.equalsIgnoreCase("nữ"))) {
+					requests.add(request);
+					continue loop;
 				}
 			}
 		}

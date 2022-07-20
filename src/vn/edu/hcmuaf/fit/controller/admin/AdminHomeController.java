@@ -14,15 +14,13 @@ import java.util.List;
 
 public class AdminHomeController {
     private User user; // logged in user
-    private UserService userService;
+    private final UserService userService;
     private final RequestService requestService;
-    private PatientService patientService;
     private final Home view;
 
     public AdminHomeController(User user) {
         this.userService = new UserServiceImpl();
         this.requestService = new RequestServiceImpl();
-        this.patientService = new PatientServiceImpl();
 
         this.user = user;
         view = new Home(this, user);
@@ -92,7 +90,7 @@ public class AdminHomeController {
 
     public void logout() {
         view.close(user.getRole());
-        UserController controller = new UserController(new User());
+        UserController controller = new UserController();
         controller.getLogin();
     }
 }

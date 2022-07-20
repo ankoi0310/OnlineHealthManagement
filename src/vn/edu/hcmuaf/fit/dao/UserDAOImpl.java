@@ -26,11 +26,6 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User findByPhone(String phone) {
-		return DbManager.users.stream().filter(user -> user.getPhone().equals(phone)).findFirst().orElse(null);
-	}
-
-	@Override
 	public void save(User user) {
 		User existUser = findById(user.getId());
 		if (existUser == null) {

@@ -4,13 +4,9 @@ public class UserLogin {
 	private String username;
 	private String password;
 
-	public UserLogin() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	public UserLogin() {}
 
 	public UserLogin(String username, String password) {
-		super();
 		this.username = username;
 		this.password = password;
 	}

@@ -125,13 +125,11 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 		Object source = e.getSource();
 
 		if (source.equals(btnLogin)) {
-			String username = tfUsername.getText();
-			String password = String.valueOf(pfPassword.getPassword());
-			controller.login(this, username, password);
-		}
-
-		if (source.equals(btnRegister)) {
-			controller.getRegister(this);
+			model.setUsername(tfUsername.getText());
+			model.setPassword(String.valueOf(pfPassword.getPassword()));
+			controller.login(model);
+		} else if (source.equals(btnRegister)) {
+			controller.getRegister();
 		}
 	}
 
@@ -143,9 +141,9 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			String username = tfUsername.getText();
-			String password = String.valueOf(pfPassword.getPassword());
-			controller.login(this, username, password);
+			model.setUsername(tfUsername.getText());
+			model.setPassword(String.valueOf(pfPassword.getPassword()));
+			controller.login(model);
 		}
 	}
 
