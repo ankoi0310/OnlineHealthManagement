@@ -52,7 +52,7 @@ public class PatientServiceImpl implements PatientService {
             return new AppBaseResult(false, "Bệnh nhân đã tồn tại");
         }
 
-        if (patient.getFullname().matches("^[0-9]+$")) {
+        if (patient.getFullname().matches("^\\d+$")) {
             return new AppBaseResult(false, "Tên bệnh nhân không hợp lệ");
         }
 
@@ -69,7 +69,7 @@ public class PatientServiceImpl implements PatientService {
         }
 
         // contain number
-        if (patient.getFullname().matches("^[0-9]+$")) {
+        if (patient.getFullname().matches("^\\d+$")) {
             return new AppBaseResult(false, "Tên bệnh nhân không hợp lệ");
         }
 
