@@ -27,6 +27,12 @@ public class UserServiceImpl implements UserService {
 			
 			if (newUser.getId().isBlank())
 				return AppBaseResult.GenarateIsFailed("Vui lòng nhập CMND/CCCD");
+
+			if (!newUser.getId().matches("^\\d+$"))
+				return AppBaseResult.GenarateIsFailed("CMND/CCCD không hợp lệ");
+
+			if (newUser.getId().length() != 9 && newUser.getId().length() != 12)
+				return AppBaseResult.GenarateIsFailed("CMND/CCCD phải có 9 hoặc 12 số");
 			
 			if (newUser.getFullname().isBlank())
 				return AppBaseResult.GenarateIsFailed("Vui lòng nhập họ tên");

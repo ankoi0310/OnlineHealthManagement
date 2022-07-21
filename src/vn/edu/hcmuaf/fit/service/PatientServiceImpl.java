@@ -38,6 +38,12 @@ public class PatientServiceImpl implements PatientService {
             return new AppBaseResult(false, "Vui lòng nhập CCCD/CMND");
         }
 
+        if (!patient.getId().matches("^\\d+$"))
+            return AppBaseResult.GenarateIsFailed("CMND/CCCD không hợp lệ");
+
+        if (patient.getId().length() != 9 && patient.getId().length() != 12)
+            return AppBaseResult.GenarateIsFailed("CMND/CCCD phải có 9 hoặc 12 số");
+
         if (patient.getFullname() == null || patient.getFullname().isBlank()) {
             return new AppBaseResult(false, "Vui lòng nhập họ tên");
         }
