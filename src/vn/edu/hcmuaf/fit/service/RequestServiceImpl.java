@@ -3,7 +3,9 @@ package vn.edu.hcmuaf.fit.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import vn.edu.hcmuaf.fit.constant.RoleConstant;
 import vn.edu.hcmuaf.fit.dao.*;
+import vn.edu.hcmuaf.fit.dto.Role;
 import vn.edu.hcmuaf.fit.handle.*;
 import vn.edu.hcmuaf.fit.model.*;
 
@@ -104,7 +106,8 @@ public class RequestServiceImpl implements RequestService {
 			return new AppBaseResult(false, "Yêu cầu không tồn tại");
 		}
 
-		if (request.getStatus() != PENDING.status()) {
+		Role role = request.getUser().getRole();
+		if (request.getStatus() != PENDING.status() && role.equals(RoleConstant.USER)) {
 			return new AppBaseResult(false, "Bạn không thể xóa yêu cầu đã được xác nhận");
 		}
 
