@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.view;
+package vn.edu.hcmuaf.fit.view.home;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import vn.edu.hcmuaf.fit.App;
-import vn.edu.hcmuaf.fit.controller.admin.AdminHomeController;
+import vn.edu.hcmuaf.fit.controller.AdminHomeController;
 import vn.edu.hcmuaf.fit.dto.Role;
 import vn.edu.hcmuaf.fit.handle.TableCellRenderer;
 import vn.edu.hcmuaf.fit.handle.WordWrapCellRenderer;
@@ -22,19 +22,17 @@ import vn.edu.hcmuaf.fit.model.*;
 
 import static vn.edu.hcmuaf.fit.constant.RequestStatusConstant.*;
 
-public class Home extends JFrame implements WindowListener, ActionListener, KeyListener {
-	private final AdminHomeController controller;
-	private final User user;
+public class AdminHome extends JFrame implements WindowListener, ActionListener, KeyListener {
+	AdminHomeController controller;
+	public User user;
 	private JPanel pnlHeader, pnlBody, pnlTool;
 	private JTable tbRequest;
 	private JLabel lblHeader, lblName, lblRoleTitle, lblRole;
 	private JTextField tfSearch;
 	private JButton btnSearch, btnRefresh, btnUpdate, btnUpdateInfo, btnRemove, btnLogout;
-	private JScrollPane scrollPane;
-	private JScrollBar scrollBar;
 	private DefaultTableModel dtm;
 
-	public Home(AdminHomeController controller, User user) {
+	public AdminHome(AdminHomeController controller, User user) {
 		this.controller = controller;
 		this.user = user;
 	}
@@ -75,14 +73,12 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 		Font font = new Font("Times New Roman", Font.PLAIN, 16);
 		tbRequest = new JTable(dtm);
 		tbRequest.setFont(font);
-		tbRequest.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tbRequest.getColumnModel().getColumn(0).setPreferredWidth(10);
 		tbRequest.getColumnModel().getColumn(0).setCellRenderer(new TableCellRenderer(SwingConstants.CENTER, font));
 		tbRequest.getColumnModel().getColumn(1).setPreferredWidth(220);
 		tbRequest.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer(font));
 		tbRequest.getColumnModel().getColumn(2).setPreferredWidth(75);
 		tbRequest.getColumnModel().getColumn(2).setCellRenderer(new TableCellRenderer(SwingConstants.CENTER, font));
-		tbRequest.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 		tbRequest.getColumnModel().getColumn(3).setPreferredWidth(175);
 		tbRequest.getColumnModel().getColumn(3).setCellRenderer(new WordWrapCellRenderer(font));
 		tbRequest.getColumnModel().getColumn(4).setPreferredWidth(150);
@@ -98,7 +94,7 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 		sortKeys.add(new RowSorter.SortKey(4, SortOrder.ASCENDING));
 		sorter.setSortKeys(sortKeys);
 
-		scrollPane = new JScrollPane(tbRequest);
+		JScrollPane scrollPane = new JScrollPane(tbRequest);
 		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		scrollPane.setBounds(0, 55, 1028, 486);
 		scrollPane.setBackground(new Color(204, 255, 255));
@@ -162,7 +158,7 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 		btnLogout.addActionListener(this);
 		pnlTool.add(btnLogout);
 
-		lblName = new JLabel("Huỳnh Văn Hữu Ân");
+		lblName = new JLabel();
 		lblName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblName.setBounds(10, 39, 236, 31);
@@ -174,13 +170,13 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 		lblRoleTitle.setBounds(57, 76, 55, 31);
 		pnlTool.add(lblRoleTitle);
 
-		lblRole = new JLabel("Admin");
+		lblRole = new JLabel();
 		lblRole.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRole.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblRole.setBounds(115, 76, 93, 31);
 		pnlTool.add(lblRole);
 
-		scrollBar = scrollPane.getVerticalScrollBar();
+		JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
 		scrollBar.setPreferredSize(new Dimension(20, 0));
 
 		setVisible(true);
@@ -215,6 +211,11 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 		}
 	}
 
+	public void loadData() {
+		lblName.setText(user.getFullname());
+		lblRole.setText(user.getRole().name());
+	}
+
 	public void showMessage(String message) {
 		JOptionPane.showInternalMessageDialog(null, message, "", JOptionPane.INFORMATION_MESSAGE, null);
 	}
@@ -245,7 +246,7 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 				controller.getUpdateRequestStatus(requestId);
 			}
 		}
-		else if (btnUpdateInfo.equals(source)) controller.updateInfo();
+		else if (btnUpdateInfo.equals(source)) controller.getUpdateProfile();
 		else if (btnRemove.equals(source)) {
 			int row = tbRequest.getSelectedRow();
 			if (row == -1)
@@ -263,8 +264,7 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 
 	@Override
 	public void windowOpened(WindowEvent e) {
-		lblName.setText(user.getFullname());
-		lblRole.setText(user.getRole().name());
+
 	}
 
 	@Override
@@ -287,7 +287,6 @@ public class Home extends JFrame implements WindowListener, ActionListener, KeyL
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		App.frames.remove(this);
 		App.frameMap.get(user.getRole()).remove(this);
 	}
 

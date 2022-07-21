@@ -1,34 +1,31 @@
-package vn.edu.hcmuaf.fit.controller.admin;
+package vn.edu.hcmuaf.fit.controller;
 
 import vn.edu.hcmuaf.fit.App;
-import vn.edu.hcmuaf.fit.controller.UserController;
 import vn.edu.hcmuaf.fit.handle.AppBaseResult;
 import vn.edu.hcmuaf.fit.handle.AppResult;
 import vn.edu.hcmuaf.fit.model.Request;
 import vn.edu.hcmuaf.fit.model.User;
 import vn.edu.hcmuaf.fit.service.*;
-import vn.edu.hcmuaf.fit.view.Home;
-import vn.edu.hcmuaf.fit.view.UpdateRequestStatus;
+import vn.edu.hcmuaf.fit.view.home.AdminHome;
+import vn.edu.hcmuaf.fit.view.request.UpdateRequestStatus;
 
 import java.util.List;
 
 public class AdminHomeController {
-    private User user; // logged in user
-    private final UserService userService;
+    private final User user; // logged in user
     private final RequestService requestService;
-    private final Home view;
+    private final AdminHome view;
 
     public AdminHomeController(User user) {
-        this.userService = new UserServiceImpl();
         this.requestService = new RequestServiceImpl();
 
         this.user = user;
-        view = new Home(this, user);
+        view = new AdminHome(this, user);
         view.createView();
+        view.loadData();
 
         refresh();
 
-        App.frames.add(view);
         App.frameMap.get(user.getRole()).add(view);
     }
 
@@ -71,10 +68,9 @@ public class AdminHomeController {
         }
     }
 
-    public void getUpdateInfo() {
-    }
-
-    public void updateInfo() {
+    public void getUpdateProfile() {
+        UserController controller = new UserController();
+        controller.getUpdateProfile(view, user);
     }
 
     public void removeRequest(Long requestId) {

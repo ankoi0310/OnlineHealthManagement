@@ -15,4 +15,5 @@ public interface RequestService {
 	AppBaseResult updateStatus(Long id, int status);
     AppBaseResult removeRequest(Long id);
     AppResult<List<Request>> search(String keyword);
+	AppResult<List<Request>> search(String userId, String keyword);
 }

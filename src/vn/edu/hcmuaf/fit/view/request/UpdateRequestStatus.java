@@ -1,11 +1,11 @@
-package vn.edu.hcmuaf.fit.view;
+package vn.edu.hcmuaf.fit.view.request;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import vn.edu.hcmuaf.fit.App;
-import vn.edu.hcmuaf.fit.controller.admin.AdminHomeController;
+import vn.edu.hcmuaf.fit.controller.AdminHomeController;
 import vn.edu.hcmuaf.fit.dto.Role;
 import vn.edu.hcmuaf.fit.model.Request;
 

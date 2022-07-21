@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.fit.model;
 
-public class Patient {
+import java.io.Serializable;
+
+public class Patient implements Serializable {
 	private String id;
 	private String fullname;
 	private int age;
@@ -14,6 +16,13 @@ public class Patient {
 		this.fullname = fullname;
 		this.age = age;
 		this.male = male;
+	}
+
+	public Patient(Patient patient) {
+		id = patient.getId();
+		fullname = patient.getFullname();
+		age = patient.getAge();
+		male = patient.isMale();
 	}
 
 	public String getId() {

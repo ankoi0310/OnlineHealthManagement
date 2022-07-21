@@ -9,7 +9,7 @@ import vn.edu.hcmuaf.fit.model.Patient;
 import java.util.List;
 
 public class PatientServiceImpl implements PatientService {
-    private PatientDAO patientDAO;
+    private final PatientDAO patientDAO;
 
     public PatientServiceImpl() {
         patientDAO = PatientDAOImpl.getInstance();
@@ -23,21 +23,61 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public AppResult<Patient> getPatient(String id) {
-        return null;
+        Patient patient = patientDAO.findById(id);
+
+        if (patient == null) {
+            return new AppResult<>(false, "Patient not found", null);
+        }
+
+        return new AppResult<>(true, "Success", patient);
     }
 
     @Override
-    public AppResult<Patient> createPatient(Patient patient) {
-        return null;
+    public AppBaseResult createPatient(Patient patient) {
+        if (patient.getId() == null || patient.getId().isBlank()) {
+            return new AppBaseResult(false, "Vui lòng nhập CCCD/CMND");
+        }
+
+        if (patient.getFullname() == null || patient.getFullname().isBlank()) {
+            return new AppBaseResult(false, "Vui lòng nhập họ tên");
+        }
+
+        if (patientDAO.findById(patient.getId()) != null) {
+            return new AppBaseResult(false, "Bệnh nhân đã tồn tại");
+        }
+
+        if (patient.getFullname().matches("^[0-9]+$")) {
+            return new AppBaseResult(false, "Tên bệnh nhân không hợp lệ");
+        }
+
+        patientDAO.save(patient);
+
+        return new AppBaseResult(true, "Tạo bệnh nhân thành công");
     }
 
     @Override
-    public AppBaseResult updatePatientInfo(Patient patient) {
-        return null;
+    public AppBaseResult updatePatient(Patient patient) {
+
+        if (patientDAO.findById(patient.getId()) == null) {
+            return new AppBaseResult(false, "Bệnh nhân không tồn tại");
+        }
+
+        // contain number
+        if (patient.getFullname().matches("^[0-9]+$")) {
+            return new AppBaseResult(false, "Tên bệnh nhân không hợp lệ");
+        }
+
+        patientDAO.save(patient);
+        return new AppBaseResult(true, "Cập nhật bệnh nhân thành công");
     }
 
     @Override
     public AppBaseResult removePatient(String id) {
-        return null;
+        if (patientDAO.findById(id) == null) {
+            return new AppBaseResult(false, "Bệnh nhân không tồn tại");
+        }
+
+        patientDAO.remove(id);
+        return new AppBaseResult(true, "Xóa bệnh nhân thành công");
     }
 }

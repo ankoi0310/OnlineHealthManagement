@@ -4,6 +4,7 @@ import vn.edu.hcmuaf.fit.database.DbManager;
 import vn.edu.hcmuaf.fit.model.Patient;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PatientDAOImpl implements PatientDAO {
 	private static PatientDAOImpl _instance;
@@ -27,7 +28,18 @@ public class PatientDAOImpl implements PatientDAO {
 
 	@Override
 	public void save(Patient patient) {
-
+		List<String> ids = DbManager.patients.stream().map(Patient::getId).toList();
+		if (!ids.contains(patient.getId())) {
+			DbManager.patients.add(patient);
+		} else {
+			for (Patient item : DbManager.patients) {
+				if (Objects.equals(item.getId(), patient.getId())) {
+					int index = DbManager.patients.indexOf(item);
+					DbManager.patients.set(index, patient);
+					break;
+				}
+			}
+		}
 	}
 
 	@Override

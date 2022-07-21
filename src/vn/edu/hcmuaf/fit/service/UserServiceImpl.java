@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.service;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Objects;
 
 import vn.edu.hcmuaf.fit.constant.RoleConstant;
@@ -78,8 +79,26 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public AppBaseResult updateProfile(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		if (user.getFullname().isBlank())
+			return AppBaseResult.GenarateIsFailed("Vui lòng nhập họ tên");
+
+		if (user.getPhone().isBlank())
+			return AppBaseResult.GenarateIsFailed("Vui lòng nhập số điện thoại");
+
+		if (!user.getPhone().matches("^(0)\\d{9}$"))
+			return AppBaseResult.GenarateIsFailed("Số điện thoại không hợp lệ\nSố điện thoại phải là 10 số và bắt đầu bởi 0");
+
+		if (user.getAddress().isBlank())
+			return AppBaseResult.GenarateIsFailed("Vui lòng nhập địa chỉ");
+
+		List<String> phones = DbManager.users.stream()
+				.filter(u -> !u.getId().equals(user.getId()))
+				.map(User::getPhone).toList();
+		if (phones.contains(user.getPhone()))
+			return AppBaseResult.GenarateIsFailed("Số điện thoại đã tồn tại");
+
+		userDAO.save(user);
+		return new AppBaseResult(true, "Cập nhật thành công");
 	}
 	
 	private String hashPassword(String password) {

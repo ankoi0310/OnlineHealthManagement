@@ -61,6 +61,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 		tfFullname.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		tfFullname.setColumns(10);
 		tfFullname.setBounds(145, 69, 196, 26);
+		tfFullname.addKeyListener(this);
 		contentPane.add(tfFullname);
 
 		lblAge = new JLabel("Tuổi: ");
@@ -72,8 +73,9 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 		tfAge = new JTextField();
 		tfAge.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		tfAge.setBounds(426, 69, 78, 26);
-		contentPane.add(tfAge);
 		tfAge.setColumns(10);
+		tfAge.addKeyListener(this);
+		contentPane.add(tfAge);
 
 		lblId = new JLabel("CMND/CCCD: ");
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -85,6 +87,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 		tfId.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		tfId.setColumns(10);
 		tfId.setBounds(145, 113, 196, 26);
+		tfId.addKeyListener(this);
 		contentPane.add(tfId);
 
 		rdbtnMale = new JRadioButton("Nam");
@@ -111,8 +114,9 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 		tfPhone = new JTextField();
 		tfPhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		tfPhone.setBounds(145, 157, 196, 26);
-		contentPane.add(tfPhone);
 		tfPhone.setColumns(10);
+		tfPhone.addKeyListener(this);
+		contentPane.add(tfPhone);
 
 		lblPassword = new JLabel("Mật khẩu: ");
 		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -123,6 +127,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 		pfPassword = new JPasswordField();
 		pfPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		pfPassword.setBounds(145, 201, 196, 26);
+		pfPassword.addKeyListener(this);
 		contentPane.add(pfPassword);
 
 		lblAddress = new JLabel("Địa chỉ: ");
@@ -135,6 +140,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 		tfAddress.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		tfAddress.setColumns(10);
 		tfAddress.setBounds(145, 245, 359, 26);
+		tfAddress.addKeyListener(this);
 		contentPane.add(tfAddress);
 
 		btnRegister = new JButton("Đăng ký");
@@ -180,7 +186,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 			try {
 				model.setAge(Integer.parseInt(tfAge.getText()));
 			} catch (NumberFormatException e1) {
-				showError("Tuổi phải là số nguyên");
+				showError("Tuổi không hợp lệ");
 				return;
 			}
 			model.setId(tfId.getText());

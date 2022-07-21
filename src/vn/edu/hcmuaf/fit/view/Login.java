@@ -48,7 +48,7 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblTitle);
 
-		lblPhone = new JLabel("Số điện thoại: ");
+		lblPhone = new JLabel("Tên đăng nhập: ");
 		lblPhone.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblPhone.setBounds(60, 89, 136, 26);
