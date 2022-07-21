@@ -34,7 +34,7 @@ public class UserHomeController {
     }
 
     public void refresh() {
-        List<Request> requests = requestService.getRequests().getData();
+        List<Request> requests = requestService.getRequests(user.getId()).getData();
         view.redraw(requests);
     }
 
