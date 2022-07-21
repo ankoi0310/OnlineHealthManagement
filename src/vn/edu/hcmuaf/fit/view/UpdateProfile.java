@@ -9,10 +9,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class UpdateProfile extends JFrame implements ActionListener, KeyListener, WindowListener {
-    private UserController controller;
-    private User model;
-    private JPanel contentPane;
-    private JLabel lblTitle, lblFullname, lblId, lblAge, lblPhone, lblAddress;
+    private final UserController controller;
+    private final User model;
     private JTextField tfFullname, tfId, tfAge, tfPhone, tfAddress;
     private JButton btnCancel, btnUpdate;
     private JRadioButton rdbtnMale, rdbtnFemale;
@@ -25,18 +23,18 @@ public class UpdateProfile extends JFrame implements ActionListener, KeyListener
     public void createView() {
         setTitle("Cập nhật thông tin");
         setBounds(100, 100, 565, 370);
-        contentPane = new JPanel();
+        JPanel contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        lblTitle = new JLabel("Cập nhật thông tin");
+        JLabel lblTitle = new JLabel("Cập nhật thông tin");
         lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 22));
         lblTitle.setBounds(0, 18, 549, 33);
         lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
         contentPane.add(lblTitle);
 
-        lblFullname = new JLabel("Họ tên: ");
+        JLabel lblFullname = new JLabel("Họ tên: ");
         lblFullname.setHorizontalAlignment(SwingConstants.RIGHT);
         lblFullname.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblFullname.setBounds(75, 69, 71, 26);
@@ -49,7 +47,7 @@ public class UpdateProfile extends JFrame implements ActionListener, KeyListener
         tfFullname.addKeyListener(this);
         contentPane.add(tfFullname);
 
-        lblAge = new JLabel("Tuổi: ");
+        JLabel lblAge = new JLabel("Tuổi: ");
         lblAge.setHorizontalAlignment(SwingConstants.RIGHT);
         lblAge.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblAge.setBounds(382, 69, 46, 26);
@@ -62,7 +60,7 @@ public class UpdateProfile extends JFrame implements ActionListener, KeyListener
         tfAge.addKeyListener(this);
         contentPane.add(tfAge);
 
-        lblId = new JLabel("CMND/CCCD: ");
+        JLabel lblId = new JLabel("CMND/CCCD: ");
         lblId.setHorizontalAlignment(SwingConstants.RIGHT);
         lblId.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblId.setBounds(31, 113, 115, 26);
@@ -91,7 +89,7 @@ public class UpdateProfile extends JFrame implements ActionListener, KeyListener
         bg.add(rdbtnMale);
         bg.add(rdbtnFemale);
 
-        lblPhone = new JLabel("Số điện thoại: ");
+        JLabel lblPhone = new JLabel("Số điện thoại: ");
         lblPhone.setHorizontalAlignment(SwingConstants.RIGHT);
         lblPhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblPhone.setBounds(10, 157, 136, 26);
@@ -104,7 +102,7 @@ public class UpdateProfile extends JFrame implements ActionListener, KeyListener
         tfPhone.addKeyListener(this);
         contentPane.add(tfPhone);
 
-        lblAddress = new JLabel("Địa chỉ: ");
+        JLabel lblAddress = new JLabel("Địa chỉ: ");
         lblAddress.setHorizontalAlignment(SwingConstants.RIGHT);
         lblAddress.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblAddress.setBounds(10, 201, 136, 26);

@@ -23,14 +23,12 @@ import java.awt.event.*;
 import javax.swing.JRadioButton;
 
 public class Registration extends JFrame implements ActionListener, KeyListener, WindowListener {
-	private UserController controller;
-	private User model;
-	private JPanel contentPane;
-	private JLabel lblTitle, lblFullname, lblId, lblAge, lblPhone, lblPassword, lblAddress;
+	private final UserController controller;
+	private final User model;
 	private JTextField tfFullname, tfId, tfAge, tfPhone, tfAddress;
 	private JPasswordField pfPassword;
 	private JButton btnCancel, btnRegister;
-	private JRadioButton rdbtnMale, rdbtnFemale;
+	private JRadioButton rdbtnMale;
 
 	public Registration(UserController controller, User model) {
 		this.controller = controller;
@@ -40,18 +38,18 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 	public void createView() {
 		setTitle("Đăng ký");
 		setBounds(100, 100, 565, 370);
-		contentPane = new JPanel();
+		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		lblTitle = new JLabel("Đăng ký");
+		JLabel lblTitle = new JLabel("Đăng ký");
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		lblTitle.setBounds(0, 18, 549, 33);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblTitle);
 
-		lblFullname = new JLabel("Họ tên: ");
+		JLabel lblFullname = new JLabel("Họ tên: ");
 		lblFullname.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblFullname.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblFullname.setBounds(75, 69, 71, 26);
@@ -64,7 +62,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 		tfFullname.addKeyListener(this);
 		contentPane.add(tfFullname);
 
-		lblAge = new JLabel("Tuổi: ");
+		JLabel lblAge = new JLabel("Tuổi: ");
 		lblAge.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblAge.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblAge.setBounds(382, 69, 46, 26);
@@ -77,7 +75,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 		tfAge.addKeyListener(this);
 		contentPane.add(tfAge);
 
-		lblId = new JLabel("CMND/CCCD: ");
+		JLabel lblId = new JLabel("CMND/CCCD: ");
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblId.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblId.setBounds(31, 113, 115, 26);
@@ -96,7 +94,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 		rdbtnMale.setBounds(367, 113, 59, 26);
 		contentPane.add(rdbtnMale);
 
-		rdbtnFemale = new JRadioButton("Nữ");
+		JRadioButton rdbtnFemale = new JRadioButton("Nữ");
 		rdbtnFemale.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		rdbtnFemale.setBounds(438, 113, 46, 26);
 		contentPane.add(rdbtnFemale);
@@ -105,7 +103,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 		bg.add(rdbtnMale);
 		bg.add(rdbtnFemale);
 
-		lblPhone = new JLabel("Số điện thoại: ");
+		JLabel lblPhone = new JLabel("Số điện thoại: ");
 		lblPhone.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblPhone.setBounds(10, 157, 136, 26);
@@ -118,7 +116,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 		tfPhone.addKeyListener(this);
 		contentPane.add(tfPhone);
 
-		lblPassword = new JLabel("Mật khẩu: ");
+		JLabel lblPassword = new JLabel("Mật khẩu: ");
 		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblPassword.setBounds(10, 201, 136, 26);
@@ -130,7 +128,7 @@ public class Registration extends JFrame implements ActionListener, KeyListener,
 		pfPassword.addKeyListener(this);
 		contentPane.add(pfPassword);
 
-		lblAddress = new JLabel("Địa chỉ: ");
+		JLabel lblAddress = new JLabel("Địa chỉ: ");
 		lblAddress.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblAddress.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblAddress.setBounds(10, 245, 136, 26);

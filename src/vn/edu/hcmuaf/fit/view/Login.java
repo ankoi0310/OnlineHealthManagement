@@ -21,10 +21,8 @@ import java.awt.event.*;
 import javax.swing.JPasswordField;
 
 public class Login extends JFrame implements ActionListener, KeyListener {
-	private UserController controller;
-	private UserLogin model;
-	private JPanel contentPane;
-	private JLabel lblTitle, lblPhone, lblPassword;
+	private final UserController controller;
+	private final UserLogin model;
 	private JTextField tfUsername;
 	private JPasswordField pfPassword;
 	private JButton btnRegister, btnLogin;
@@ -37,18 +35,18 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 	public void createView() {
 		setTitle("Đăng nhập");
 		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
+		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		lblTitle = new JLabel("Vui lòng đăng nhập để tiếp tục");
+		JLabel lblTitle = new JLabel("Vui lòng đăng nhập để tiếp tục");
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		lblTitle.setBounds(0, 21, 434, 47);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblTitle);
 
-		lblPhone = new JLabel("Tên đăng nhập: ");
+		JLabel lblPhone = new JLabel("Tên đăng nhập: ");
 		lblPhone.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblPhone.setBounds(60, 89, 136, 26);
@@ -61,7 +59,7 @@ public class Login extends JFrame implements ActionListener, KeyListener {
 		tfUsername.addKeyListener(this);
 		contentPane.add(tfUsername);
 
-		lblPassword = new JLabel("Mật khẩu: ");
+		JLabel lblPassword = new JLabel("Mật khẩu: ");
 		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblPassword.setBounds(60, 141, 136, 26);

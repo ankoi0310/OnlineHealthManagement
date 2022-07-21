@@ -24,9 +24,6 @@ import java.awt.event.ActionEvent;
 public class UpdateRequestStatus extends JFrame implements ActionListener {
 	private final AdminHomeController controller;
 	private final Request model;
-	private JLabel lblHeader;
-
-	private JPanel contentPane;
 	private JComboBox<String> cbStatus;
 	private JButton btnCancel, btnSubmit;
 
@@ -37,12 +34,12 @@ public class UpdateRequestStatus extends JFrame implements ActionListener {
 
 	public void createView() {
 		setBounds(100, 100, 450, 200);
-		contentPane = new JPanel();
+		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		lblHeader = new JLabel("Cập nhật trạng thái yêu cầu");
+		JLabel lblHeader = new JLabel("Cập nhật trạng thái yêu cầu");
 		lblHeader.setBounds(5, 5, 424, 27);
 		lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
 		lblHeader.setFont(new Font("Tahoma", Font.BOLD, 22));

@@ -21,18 +21,15 @@ import java.util.*;
 import java.util.List;
 
 import static vn.edu.hcmuaf.fit.constant.RequestStatusConstant.*;
-import static vn.edu.hcmuaf.fit.constant.RequestStatusConstant.COMPLETED;
 
 public class UserHome extends JFrame implements WindowListener, ActionListener, KeyListener {
     private final UserHomeController controller;
     public User user;
-    private JPanel pnlHeader, pnlBody, pnlTool;
     private JTable tbRequest;
-    private JLabel lblHeader, lblName, lblRoleTitle, lblRole;
+    private JLabel lblName;
+    private JLabel lblRole;
     private JTextField tfSearch;
     private JButton btnSearch, btnRefresh, btnUpdateRequest, btnUpdateInfo, btnRemove, btnLogout, btnCreate;
-    private JScrollPane scrollPane;
-    private JScrollBar scrollBar;
     private DefaultTableModel dtm;
 
     public UserHome(UserHomeController controller, User user) {
@@ -45,20 +42,20 @@ public class UserHome extends JFrame implements WindowListener, ActionListener, 
         setBounds(0, 0, 1300, 700);
         getContentPane().setLayout(null);
 
-        pnlHeader = new JPanel();
+        JPanel pnlHeader = new JPanel();
         pnlHeader.setBorder(new MatteBorder(2, 2, 0, 2, new Color(0, 0, 0)));
         pnlHeader.setBackground(new Color(102, 153, 255));
         pnlHeader.setBounds(0, 0, 1284, 120);
         getContentPane().add(pnlHeader);
         pnlHeader.setLayout(new BorderLayout(0, 0));
 
-        lblHeader = new JLabel("Online Health Management System");
+        JLabel lblHeader = new JLabel("Online Health Management System");
         lblHeader.setForeground(new Color(255, 255, 255));
         lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
         lblHeader.setFont(new Font("Tahoma", Font.BOLD, 36));
         pnlHeader.add(lblHeader, BorderLayout.CENTER);
 
-        pnlBody = new JPanel();
+        JPanel pnlBody = new JPanel();
         pnlBody.setBorder(new MatteBorder(2, 2, 0, 2, new Color(0, 0, 0)));
         pnlBody.setBackground(new Color(153, 204, 255));
         pnlBody.setBounds(0, 120, 1284, 541);
@@ -99,7 +96,7 @@ public class UserHome extends JFrame implements WindowListener, ActionListener, 
         sortKeys.add(new RowSorter.SortKey(4, SortOrder.ASCENDING));
         sorter.setSortKeys(sortKeys);
 
-        scrollPane = new JScrollPane(tbRequest);
+        JScrollPane scrollPane = new JScrollPane(tbRequest);
         scrollPane.setBorder(new LineBorder(new Color(0, 0, 0), 2));
         scrollPane.setBounds(0, 55, 1028, 486);
         scrollPane.setBackground(new Color(204, 255, 255));
@@ -118,7 +115,7 @@ public class UserHome extends JFrame implements WindowListener, ActionListener, 
         btnSearch.setBounds(929, 11, 89, 33);
         pnlBody.add(btnSearch);
 
-        pnlTool = new JPanel();
+        JPanel pnlTool = new JPanel();
         pnlTool.setBorder(new MatteBorder(0, 0, 2, 2, new Color(0, 0, 0)));
         pnlTool.setBackground(new Color(153, 204, 255));
         pnlTool.setBounds(1028, 55, 256, 486);
@@ -176,7 +173,7 @@ public class UserHome extends JFrame implements WindowListener, ActionListener, 
         lblName.setBounds(10, 0, 236, 31);
         pnlTool.add(lblName);
 
-        lblRoleTitle = new JLabel("Role: ");
+        JLabel lblRoleTitle = new JLabel("Role: ");
         lblRoleTitle.setHorizontalAlignment(SwingConstants.CENTER);
         lblRoleTitle.setFont(new Font("Tahoma", Font.BOLD, 14));
         lblRoleTitle.setBounds(57, 27, 55, 31);
@@ -188,7 +185,7 @@ public class UserHome extends JFrame implements WindowListener, ActionListener, 
         lblRole.setBounds(115, 27, 93, 31);
         pnlTool.add(lblRole);
 
-        scrollBar = scrollPane.getVerticalScrollBar();
+        JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
         scrollBar.setPreferredSize(new Dimension(20, 0));
 
         setVisible(true);

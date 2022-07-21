@@ -140,6 +140,12 @@ public class RequestController {
             for (Patient patient : currentPatients) {
                 patientService.updatePatient(patient);
             }
+
+            if (updatedPatients.size() > 0) {
+                for (Patient patient : updatedPatients) {
+                    patientService.removePatient(patient.getId());
+                }
+            }
         }
     }
 }

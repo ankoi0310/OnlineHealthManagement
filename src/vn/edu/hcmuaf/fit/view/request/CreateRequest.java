@@ -13,13 +13,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CreateRequest extends JFrame implements ActionListener {
     private final RequestController controller;
-    private Request model;
-    private JLabel lblHeader, lblPhone, lblAddress, lblProblem;
+    private final Request model;
     private JTextArea taProblem;
     private JTextField tfPhone, tfAddress;
     private JTable tbRequest;
@@ -38,7 +36,7 @@ public class CreateRequest extends JFrame implements ActionListener {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        lblHeader = new JLabel("Thông tin Request");
+        JLabel lblHeader = new JLabel("Thông tin Request");
         lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
         lblHeader.setFont(new Font("Tahoma", Font.BOLD, 22));
         lblHeader.setBounds(0, 18, 470, 34);
@@ -99,7 +97,7 @@ public class CreateRequest extends JFrame implements ActionListener {
         btnRemove.addActionListener(this);
         contentPane.add(btnRemove);
 
-        lblPhone = new JLabel("Phone: ");
+        JLabel lblPhone = new JLabel("Phone: ");
         lblPhone.setHorizontalAlignment(SwingConstants.LEFT);
         lblPhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblPhone.setBounds(57, 260, 110, 27);
@@ -111,7 +109,7 @@ public class CreateRequest extends JFrame implements ActionListener {
         tfPhone.setColumns(10);
         tfPhone.addActionListener(this);
 
-        lblAddress = new JLabel("Address: ");
+        JLabel lblAddress = new JLabel("Address: ");
         lblAddress.setHorizontalAlignment(SwingConstants.LEFT);
         lblAddress.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblAddress.setBounds(57, 300, 110, 27);
@@ -123,7 +121,7 @@ public class CreateRequest extends JFrame implements ActionListener {
         tfAddress.setColumns(10);
         tfAddress.addActionListener(this);
 
-        lblProblem = new JLabel("Problem Description: ");
+        JLabel lblProblem = new JLabel("Problem Description: ");
         lblProblem.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblProblem.setBounds(57, 350, 250, 27);
         contentPane.add(lblProblem);
